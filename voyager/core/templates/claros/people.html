@@ -1,0 +1,37 @@
+{% extends "base.html" %}{% load humfrey_desc %}
+
+{% block title %}People{% endblock %}
+
+{% block body %}
+<section>
+  <h1>People</h1>
+  
+  <table class="description">
+    <thead>
+      <tr>
+        <th>Names</th>
+        <th>Birth year</th>
+      </tr>
+    </thead>
+    <tbody>
+{% for person in people %}
+      <tr class="row-{% cycle odd,even %}">
+        <td>
+          <a href="{{ person.uri.doc_url }}">
+          {% for appellation in person.appellations %}
+            {{ appellation }}
+            {% if not forloop.last %}<br/>{% endif %}
+          {% endfor %}
+          </a>
+        </td>
+        <td>
+          {{ person.birth_period_begin }} &ndash; {{ person.birth_period_end }}
+        </td>
+        <td>
+          {{ person.birth_place|node }}
+        </td>
+      </tr>
+{% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

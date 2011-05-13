@@ -2,8 +2,12 @@ from django.conf.urls.defaults import *
 from django.conf import settings
 from django.views.generic.simple import redirect_to
 
-from humfrey.desc.views import IndexView, IdView, DocView, SparqlView
+from humfrey.desc.views import IndexView, IdView, DocView, DescView, SparqlView
+from humfrey.images.views import ResizedImageView
+from voyager.core.views import ObjectView, PeopleView
+
 #from humfrey.dataox.views import DatasetView, ExploreView, ExampleDetailView, ExampleResourceView, ExampleQueryView, ContactView, ForbiddenView, HelpView, ResizedImageView
+
 
 import resource
 
@@ -11,6 +15,10 @@ urlpatterns = patterns('',
     (r'^$', IndexView(), {}, 'index'),
     (r'^id/.*$', IdView(), {}, 'id'),
     (r'^doc/.*$', DocView(), {}, 'doc'),
+    (r'^desc/$', DescView(), {}, 'desc'),
+    
+    (r'^objects/$', ObjectView(), {}, 'claros-objects'),
+    (r'^people/$', PeopleView(), {}, 'claros-people'),
 #    (r'^graph/.*$', GraphView(), {}, 'graph'),
 #    (r'^datasets/$', DatasetView(), {}, 'datasets'),
     (r'^sparql/$', SparqlView(), {}, 'sparql'),
@@ -26,7 +34,7 @@ urlpatterns = patterns('',
 #    (r'^explore/(?P<slug>[a-z\d-]+)/$', ExampleDetailView(), {}, 'example-detail'),
 #    (r'^explore/example:(?P<slug>[a-z\d-]+)/$', redirect_to, {'url': '/explore/%(slug)s/'}),
 
-#    (r'^external-image/$', ResizedImageView(), {}, 'resized-image'),    
+    (r'^external-image/$', ResizedImageView(), {}, 'resized-image'),    
 )
 
 if settings.DEBUG:

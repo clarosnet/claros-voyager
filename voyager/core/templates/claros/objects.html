@@ -1,0 +1,39 @@
+{% extends "base.html" %}{% load humfrey_desc %}
+
+{% block extrahead %}
+  <style type="text/css">
+    ul#objects {
+      list-style: none;
+      padding-left: 0;
+    }
+    
+    ul#objects li {
+      width:200px;
+      padding:8px;
+      float:left;
+      font-size: 10pt;
+      text-align: center;
+    }
+    
+    li.image-break {
+      clear:both;
+    }
+  </style>
+{% endblock %}
+
+{% block title %}Objects{% endblock %}
+
+{% block body %}
+<section>
+  <h1>Man-made objects</h2>
+  
+  <ul id="objects">
+  {% for subject in subjects %}
+    <li{% if forloop.counter0|divisibleby:4 and forloop.counter0 %} class="image-break"{% endif %}>
+      <img src="{% url resized-image %}?url={{ subject.depictions.0|urlencode }}&amp;width=200"/><br/>
+      {{ subject|node }}</li>
+  {% endfor %}
+  </ul>
+  <div style="clear:both;"> </div>
+</section>
+{% endblock %}

@@ -19,6 +19,7 @@ TEMPLATE_DIRS = (
 )
 
 IMAGE_TYPES += ('crm:E38_Image',)
+
 ADDITIONAL_NAMESPACES = {
     'crm': 'http://purl.org/NET/crm-owl#',
     'claros': 'http://purl.org/NET/Claros/vocab#',

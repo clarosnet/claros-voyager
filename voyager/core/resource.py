@@ -53,14 +53,16 @@ class ManMadeObject(object):
     @property
     def geo_lat(self):
         return self.crm_P16i_was_used_for.P7_took_place_at.geo_lat
-
-    def _augment(self):
-        return self._endpoint.query("""
-          DESCRIBE ?activity ?place ?identifier WHERE {
-            %s crm:P16i_was_used_for ?activity .
-            ?activity crm:P7_took_place_at ?place .
-            ?place crm:P87_is_identified_by ?identifier
-          }""" % self._identifier.n3())
+          
+#    @classmethod
+#    def _describe_patterns(cls, uri, get_names):
+#        name, = get_names(1)
+#        params = {'uri': uri.n3(), 'name': name}
+#        return [
+#            '%(uri)s crm:P16i_was_used_for %(name)s' % params,
+#            '%(uri)s crm:P2_has_type %(name)s' % params,
+#            '%(name)s void:inDataset %(uri)s' % params,
+#        ]
         
 register(ManMadeObject, 'crm:E22_Man-Made_Object')
 
