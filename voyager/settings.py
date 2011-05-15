@@ -12,8 +12,6 @@ INSTALLED_APPS += (
 ROOT_URLCONF = 'voyager.urls'
 MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'media')
 
-RESIZED_IMAGE_CACHE_DIR = os.path.join(os.path.dirname(__file__), '..', '..', '..', 'external_images')
-
 TEMPLATE_DIRS = (
     os.path.join(os.path.dirname(__file__), '..', 'dataox', 'templates'),
 )
