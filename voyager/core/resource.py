@@ -54,15 +54,16 @@ class ManMadeObject(object):
     def geo_lat(self):
         return self.crm_P16i_was_used_for.P7_took_place_at.geo_lat
           
-#    @classmethod
-#    def _describe_patterns(cls, uri, get_names):
-#        name, = get_names(1)
-#        params = {'uri': uri.n3(), 'name': name}
-#        return [
-#            '%(uri)s crm:P16i_was_used_for %(name)s' % params,
-#            '%(uri)s crm:P2_has_type %(name)s' % params,
-#            '%(name)s void:inDataset %(uri)s' % params,
-#        ]
+    @classmethod
+    def _describe_patterns(cls, uri, get_names):
+    	print "ER"
+        name, = get_names(1)
+        params = {'uri': uri.n3(), 'name': name}
+        return [
+            '%(uri)s crm:P16i_was_used_for %(name)s' % params,
+            '%(uri)s crm:P2_has_type %(name)s' % params,
+            '%(uri)s crm:P138i_has_representation %(name)s' % params,
+        ]
         
 register(ManMadeObject, 'crm:E22_Man-Made_Object')
 
