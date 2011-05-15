@@ -3,7 +3,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-GB">
   <head>
     <title>{% block title %}Open Data about the University of Oxford{% endblock %} | Claros RDF Voyager</title>
-    <link rel="stylesheet" href="{{ MEDIA_URL }}main.css" type="text/css"/>
+    
+    {% with "http://claros1.oerc.ox.ac.uk/XDB/ASP/clarosHome/styles/" as EXPLORER_STYLE %}
+    <link rel="stylesheet" type="text/css" href="{{ EXPLORER_STYLE }}basic.css" media="all"/>
+    <link rel="stylesheet" type="text/css" href="{{ EXPLORER_STYLE }}print.css" media="print"/>
+    <link rel="stylesheet" type="text/css" href="{{ EXPLORER_STYLE }}full.css" media="screen and (min-device-width: 320px)"/>
+    {% endwith %}
+
+    <!--<link rel="stylesheet" href="{{ MEDIA_URL }}main.css" type="text/css"/>-->
     <link rel="icon" href="{{ MEDIA_URL }}favicon.ico" type="image/x-icon"/>{% if no_index %}
     <meta name="robots" content="noindex"/>{% endif %}
     <script src="{{ MEDIA_URL }}jquery.min.js" type="application/javascript"></script>
@@ -11,33 +18,28 @@
     {% block extrahead %}{% endblock %}
   </head>
 
-  <body>
-    <div class="container">
-    <header>
-      <a href="http://www.ox.ac.uk/">
-        <img src="{{ MEDIA_URL }}logo.png" alt="University of Oxford"/>
-      </a>
-      <p class="title">Claros RDF Voyager</p>
-      <p>clarosnet.org</p>
-    </header>
-    
-    <nav>
-      <ul>
+  <body class="index">
+    <div id="all">
+      <div id="header">
+        <a id="logoLink" href="/">
+          <span id="site-title">data.clarosnet.org: The data of the Claros Project on the semantic web</span>
+        </a>
+      <div class="mainnav">
+        <ul>
 {% block nav %}
-        <li><a href="{% url index %}">home</a></li>
-        <li><a href="{% url claros-objects %}">objects</a></li>
-{#        <li><a href="{% url explore %}">explore</a></li> #}
-        <li><a href="{% url sparql %}">sparql</a></li>
-{#        <li><a href="{% url help %}">help</a></li> #}
-{#        <li><a href="{% url contact %}">contact</a></li> #}
+          <li><a href="{% url index %}">Home</a></li>
+          <li><a href="{% url claros-objects %}">Objects</a></li>
+          <li><a href="{% url claros-people %}">People</a></li>
+          <li><a href="{% url sparql %}">SPARQL</a></li>
 {% endblock %}
-      </ul>
-    </nav>
+        </ul>
+      </div>
+      </div>
 
 {% block body %}
-    <section>
-      <h1>Home</h1>
-    </section>
+      <div id="content">
+        <h1>Home</h1>
+      </div>
 {% endblock %}
     </div>
   </body>
