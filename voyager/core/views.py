@@ -4,6 +4,7 @@ from collections import defaultdict
 from humfrey.desc.views import EndpointView, RDFView, SRXView
 from humfrey.utils.resource import Resource
 from humfrey.utils.namespaces import NS
+from humfrey.utils.cache import cached_view
 
 class ObjectView(EndpointView, RDFView):
     _graph_names = [
@@ -42,29 +43,27 @@ class ObjectView(EndpointView, RDFView):
         ?obj rdfs:label ?label .
         ?obj crm:P138i_has_representation ?image
       } WHERE {
-        GRAPH <http://purl.org/NET/Claros/graph/arachne> {
+        GRAPH <http://purl.org/NET/Claros/graph/ashmol> {
           ?obj crm:P138i_has_representation ?image .
           ?obj rdfs:label ?label .
           MINUS { ?image crm:P2_has_type claros:Thumbnail } .
         }
-      } LIMIT 200
+      } LIMIT 2000
     """
     
     # FILTER ( ?image != <http://www.beazley.ox.ac.uk/Vases/SPIFF//cc001001.jpe>
     #       && ?image != <http://www.beazley.ox.ac.uk/Vases/SPIFF//ac001001.jpe> )
 
-    def initial_context(self, request):
+    @cached_view
+    def handle_GET(self, request, context):
         graph = self.endpoint.query(self._query, common_prefixes=False)
         subjects = set(graph.subjects(NS['crm'].P138i_has_representation))
         subjects = [Resource(s, graph, self.endpoint) for s in subjects]
         random.shuffle(subjects)
-        print subjects
-        return {
+        context.update({
             'graph': graph,
             'subjects': subjects,
-        }
-
-    def handle_GET(self, request, context):
+        })
         return self.render(request, context, 'claros/objects')
 
 class PeopleView(EndpointView, SRXView):
@@ -86,8 +85,9 @@ class PeopleView(EndpointView, SRXView):
         }
       } LIMIT 1000
     """
-    
-    def initial_context(self, request):
+
+    @cached_view    
+    def handle_GET(self, request, context):
         results = list(self.endpoint.query(self._query))
         people = defaultdict(lambda:defaultdict(set))
         for result in results:
@@ -100,11 +100,9 @@ class PeopleView(EndpointView, SRXView):
         	person['birth_place_name'].add(result.birth_place_name)
         people = people.values()
         	  
-        return {
+        context.update({
             'results': results,
             'people': people,
-        }
-
-    def handle_GET(self, request, context):
+        })
         return self.render(request, context, 'claros/people')
       
