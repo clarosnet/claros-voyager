@@ -1,0 +1,45 @@
+{% extends "base.html" %}{% load humfrey_desc %}
+
+{% block title %}{{ subject.label }}{% endblock %}
+
+{% block body %}
+<div id="content">
+  <h1>{{ subject.label }}</h1>
+  
+  {% block description %}
+    {% if subject.is_image %}
+      <img src="{{ subject.uri }}" title="{{ subject.label }}" width="100%"/>
+    {% endif %}
+  {% endblock %}
+  
+  {% if subject.depictions %}
+    <h2>Images</h2>
+    <ul>
+    {% for depiction in subject.depictions %}
+      <li>
+        <a href="{{ depiction.doc_url }}">
+          <img src="{% url resized-image %}?url={{ depiction.uri }}&width=200" width="200"/>
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  
+  <table class="description">
+    <tbody>
+  {% for property, objects in subject.properties %}
+      <tr>
+        <th>{{ property|node }}</th>
+        <td>
+    {% for object in objects %}
+          {{ object|node }}
+          {% if not forloop.last %}<br/>{% endif %}
+    {% endfor %}
+        </td>
+      </tr>
+  {% endfor %}
+    </tbody>
+  </table>
+
+</div>
+{% endblock %}
