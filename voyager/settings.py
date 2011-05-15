@@ -17,6 +17,7 @@ TEMPLATE_DIRS = (
 )
 
 IMAGE_TYPES += ('crm:E38_Image',)
+IMAGE_PROPERTIES += ('crm:P138i_has_representation',)
 
 ADDITIONAL_NAMESPACES = {
     'crm': 'http://purl.org/NET/crm-owl#',
