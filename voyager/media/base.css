@@ -1,3 +1,91 @@
 div#header {
 	background-image: url('claros-data-banner.jpg');
 }
+
+table.description {
+	background-color:#fff;
+	margin-left:10px;
+    margin-top:20px;
+	border-collapse: collapse;
+	border:2px solid fff;
+    font-size:10pt;
+    width:780px;
+}
+
+table.description th, table.description td {
+    padding:5px;
+}
+
+table.description tr.row-odd th, table.description tr.row-odd td {
+	background-color:#DDE2E6;
+}
+
+table.description tr.row-even th, table.description tr.row-even td {
+	background-color:#E6E6E6;
+}
+
+    ul.object-images {
+      list-style: none;
+      text-align: center;
+      padding:10px;
+    }
+    
+    ul.object-images li {
+      width:180px;
+      margin-left:20px;
+      margin-top:20px;
+      position:relative;
+      padding-bottom: 0;
+      font-size: 10pt;
+      text-align: center;
+      vertical-align: top;
+      float:left;
+    }
+
+ul.object-images li:first-child, ul.object-images li.image-break {
+margin-left:0;
+}
+    
+    ul.object-images a img {
+      border: 0;
+    }
+
+    ul.object-images a img.with-caption {
+      padding-top:4em;
+      background-color:#576d7f;
+    }
+    
+    ul.object-images div.image-caption {
+      position:absolute;
+      background-color: rgba(87, 109, 127, 0.6);
+      width:176px;
+      padding:2px;
+    }
+    
+    ul.object-images li a {
+      color:#fff;
+      text-decoration: none;
+    }
+    ul.object-images li a:hover {
+      color:#000;
+    }
+    
+      
+    
+    li.image-break {
+      clear:both;
+    }
+
+div.sidebar {
+    float:right;
+    width:180px;
+    padding:0;
+    margin-top:20px;
+    margin-right:10px;
+    color: #2E3C48;
+}
+
+div.sidebar h3, div.sidebar a {
+margin-top:2px;
+color: #2E3C48;
+}

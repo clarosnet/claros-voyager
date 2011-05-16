@@ -28,7 +28,11 @@
           {{ person.birth_period_begin }} &ndash; {{ person.birth_period_end }}
         </td>
         <td>
+        {% if person.birth_place_name %}
+          <a href="{{ person.birth_place.doc_url }}">{{ person.birth_place_name }}</a>
+        {% else %}
           {{ person.birth_place|node }}
+        {% endif %}
         </td>
       </tr>
 {% endfor %}

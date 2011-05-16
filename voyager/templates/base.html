@@ -15,8 +15,11 @@
     <!--<link rel="stylesheet" href="{{ MEDIA_URL }}main.css" type="text/css"/>-->
     <link rel="icon" href="{{ MEDIA_URL }}favicon.ico" type="image/x-icon"/>{% if no_index %}
     <meta name="robots" content="noindex"/>{% endif %}
-    <script src="{{ MEDIA_URL }}jquery.min.js" type="application/javascript"></script>
-    <script src="{{ MEDIA_URL }}OpenLayers-2.10/OpenLayers.js" type="application/javascript"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <script type="application/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script type="application/javascript" src="http://openlayers.org/api/OpenLayers.js"></script>
+    <script type="application/javascript" src="{{ MEDIA_URL }}base.js"></script>
     {% block extrahead %}{% endblock %}
   </head>
 
@@ -32,6 +35,7 @@
           <li><a href="{% url index %}">Home</a></li>
           <li><a href="{% url claros-objects %}">Objects</a></li>
           <li><a href="{% url claros-people %}">People</a></li>
+          <li><a href="{% url claros-people %}">Places</a></li>
           <li><a href="{% url sparql %}">SPARQL</a></li>
 {% endblock %}
         </ul>
@@ -43,6 +47,12 @@
         <h1>Home</h1>
       </div>
 {% endblock %}
+    </div>
+    <div id="footer">
+      <p>
+        Hosted by the University of Oxford's e-research centre, <a href="http://www.oerc.ox.ac.uk/">OeRC</a><br/>
+        This interface was built using <a href="http://openjena.org/wiki/Fuseki">Fuseki</a>, <a href="https://github.com/oucs/humfrey">humfrey</a>, and <a href="https://github.com/clarosnet/claros-voyager">a tweaked frontend</a>.
+      </p>
     </div>
   </body>
 </html>

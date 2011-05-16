@@ -2,22 +2,7 @@
 
 {% block extrahead %}
   <style type="text/css">
-    ul#objects {
-      list-style: none;
-      padding-left: 0;
-    }
-    
-    ul#objects li {
-      width:200px;
-      padding:8px;
-      float:left;
-      font-size: 10pt;
-      text-align: center;
-    }
-    
-    li.image-break {
-      clear:both;
-    }
+
   </style>
 {% endblock %}
 
@@ -27,11 +12,14 @@
 <div id="content">
   <h1>Man-made objects</h2>
   
-  <ul id="objects">
+  <ul class="object-images">
   {% for subject in subjects %}
-    <li{% if forloop.counter0|divisibleby:4 and forloop.counter0 %} class="image-break"{% endif %}>
-      <img src="{% url resized-image %}?url={{ subject.depictions.0|urlencode }}&amp;width=200"/><br/>
-      {{ subject|node }}</li>
+    <li{% if forloop.counter0|divisibleby:5 and forloop.counter0 %} class="image-break"{% endif %}>
+      <a href="{{ subject.doc_url }}">
+        <div class="image-caption">{{ subject.label|truncatewords:14 }}</div>
+        <img class="with-caption" src="{% url resized-image %}?url={{ subject.depictions.0|urlencode }}&amp;width=180"/>
+      </a>
+      </li>
   {% endfor %}
   </ul>
   <div style="clear:both;"> </div>
