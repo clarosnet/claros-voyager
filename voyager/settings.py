@@ -23,3 +23,7 @@ ADDITIONAL_NAMESPACES = {
     'crm': 'http://purl.org/NET/crm-owl#',
     'claros': 'http://purl.org/NET/Claros/vocab#',
 }
+
+TEMPLATE_DIRS = (
+    os.path.join(os.path.dirname(__file__), 'templates'),
+) + TEMPLATE_DIRS
