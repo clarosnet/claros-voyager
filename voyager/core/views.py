@@ -85,7 +85,7 @@ class PeopleView(EndpointView, SRXView):
           OPTIONAL {
             ?birth crm:P7_took_place_at ?birth_place .
             OPTIONAL {
-              ?birth_place crm:P87_is_identified_by ?place_name }
+              ?birth_place crm:P87_is_identified_by ?birth_place_name }
           }
         }
       } LIMIT 1000
