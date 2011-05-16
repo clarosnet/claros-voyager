@@ -4,7 +4,7 @@ from django.views.generic.simple import redirect_to
 
 from humfrey.desc.views import IndexView, IdView, DocView, DescView, SparqlView
 from humfrey.images.views import ResizedImageView
-from voyager.core.views import ObjectView, PeopleView
+from voyager.core.views import ObjectView, PeopleView, ForbiddenView
 
 #from humfrey.dataox.views import DatasetView, ExploreView, ExampleDetailView, ExampleResourceView, ExampleQueryView, ContactView, ForbiddenView, HelpView, ResizedImageView
 
@@ -25,7 +25,7 @@ urlpatterns = patterns('',
 #    (r'^contact/$', ContactView(), {}, 'contact'),
 #    (r'^help/$', HelpView(), {}, 'help'),
 
-#    (r'^forbidden/$', ForbiddenView(), {}, 'forbidden'),
+    (r'^forbidden/$', ForbiddenView(), {}, 'forbidden'),
 
 #    (r'^explore/$', ExploreView(), {}, 'explore'),
 #    (r'^explore/resources/$', ExampleResourceView(), {}, 'explore-resource'),

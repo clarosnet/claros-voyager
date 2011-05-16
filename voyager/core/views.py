@@ -4,6 +4,7 @@ from collections import defaultdict
 from humfrey.desc.views import EndpointView, RDFView, SRXView
 from humfrey.utils.resource import Resource
 from humfrey.utils.namespaces import NS
+from humfrey.utils.views import BaseView
 from humfrey.utils.cache import cached_view
 
 class ObjectView(EndpointView, RDFView):
@@ -105,4 +106,11 @@ class PeopleView(EndpointView, SRXView):
             'people': people,
         })
         return self.render(request, context, 'claros/people')
-      
+
+
+
+class ForbiddenView(BaseView):
+    @cached_view
+    def handle_GET(self, request, context):
+        context['status_code'] = 403
+        return self.render(request, context, 'forbidden')
