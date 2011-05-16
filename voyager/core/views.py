@@ -29,12 +29,13 @@ class ObjectView(EndpointView, RDFView):
               { SELECT ?obj ?image ?label WHERE {
                   GRAPH <%s> {
                       ?obj crm:P138i_has_representation ?image ; rdfs:label ?label .
-                      MINUS { ?image crm:P2_has_type claros:Thumbnail } .
-                      FILTER ( matches('SPIFF//', ?image) )
+                      MINUS { ?image crm:P2_has_type claros:Thumbnail }
                   }
-              } LIMIT 1 }""" % graph_name for graph_name in _graph_names) + """
+              } LIMIT 1000 }""" % graph_name for graph_name in _graph_names) + """
         }
     """
+    print _query
+    
     _query = """
       PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>
       PREFIX  crm:  <http://purl.org/NET/crm-owl#>
@@ -44,7 +45,7 @@ class ObjectView(EndpointView, RDFView):
         ?obj rdfs:label ?label .
         ?obj crm:P138i_has_representation ?image
       } WHERE {
-        GRAPH <http://purl.org/NET/Claros/graph/ashmol> {
+        GRAPH <http://purl.org/NET/Claros/graph/arachne> {
           ?obj crm:P138i_has_representation ?image .
           ?obj rdfs:label ?label .
           MINUS { ?image crm:P2_has_type claros:Thumbnail } .
@@ -57,10 +58,13 @@ class ObjectView(EndpointView, RDFView):
 
     @cached_view
     def handle_GET(self, request, context):
-        graph = self.endpoint.query(self._query, common_prefixes=False)
+        if not hasattr(self, '_cached_graph'):
+            self._cached_graph = self.endpoint.query(self._query)
+        graph = self._cached_graph
         subjects = set(graph.subjects(NS['crm'].P138i_has_representation))
         subjects = [Resource(s, graph, self.endpoint) for s in subjects]
         random.shuffle(subjects)
+        subjects = subjects[:200]
         context.update({
             'graph': graph,
             'subjects': subjects,
