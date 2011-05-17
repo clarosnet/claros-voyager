@@ -17,40 +17,47 @@ class ObjectView(EndpointView, RDFView):
         ?obj crm:P138i_has_representation ?image
       } WHERE {
         %s
-      } LIMIT 400
+      } LIMIT 2000
     """
 
     _sub_query = """{
           SELECT ?obj ?image ?label WHERE {
-            ?obj
-              crm:P138i_has_representation ?image ;
-              crm:P2_has_type %s ;
-              rdfs:label ?label .
-            MINUS { ?image crm:P2_has_type claros:Thumbnail }
-          }
+            ?obj crm:P2_has_type %s .
+            ?obj crm:P138i_has_representation ?image .
+            ?obj rdfs:label ?label .
+          } LIMIT 500
         }"""
+
+        # Adding this makes it slow
+        # MINUS { ?image crm:P2_has_type claros:Thumbnail }
     
     _OBJECT_TYPES = {
-        'ceramic':       ('ceramics',      ('http://purl.org/NET/Claros/vocab#Ashmolean/Category/ceramic', 'http://arachne.uni-koeln.de/type/objectType/keramik')),
-        'miscellaneous': ('miscellaneous', ('http://purl.org/NET/Claros/vocab#Ashmolean/Category/miscellaneous',)),
+        'ceramic':       ('ceramics',      ('http://purl.org/NET/Claros/vocab#Ashmolean/Category/ceramic',
+                                            'http://arachne.uni-koeln.de/type/objectType/keramik')),
+        'miscellaneous': ('miscellaneous', ('http://purl.org/NET/Claros/vocab#Ashmolean/Category/general',)),
         'print':         ('prints',        ('http://purl.org/NET/Claros/vocab#Ashmolean/Category/print',)),
         'drawing':       ('drawings',      ('http://purl.org/NET/Claros/vocab#Ashmolean/Category/drawing',)),
         'textile':       ('textiles',      ('http://purl.org/NET/Claros/vocab#Ashmolean/Category/textile',)),
         'painting':      ('paintings',     ('http://purl.org/NET/Claros/vocab#Ashmolean/Category/painting',)),
         'bound-volume':  ('bound volumes', ('http://purl.org/NET/Claros/vocab#Ashmolean/Category/bound_volume',)),
 
-        'statuette':     ('statuettes',    ('http://arachne.uni-koeln.de/type/objectType/statuette', 'http://purl.org/NET/Claros/vocab#LIMC/Support/statuette')),
-        'mosaic':        ('mosaics',       ('http://arachne.uni-koeln.de/type/objectType/mosaik','http://purl.org/NET/Claros/vocab#LIMC/Domaine/polychrome_mosaic')),
+        'statuette':     ('statuettes',    ('http://arachne.uni-koeln.de/type/objectType/statuette',
+                                            'http://purl.org/NET/Claros/vocab#LIMC/Support/statuette')),
+        'mosaic':        ('mosaics',       ('http://arachne.uni-koeln.de/type/objectType/mosaik',
+                                            'http://purl.org/NET/Claros/vocab#LIMC/Domaine/polychrome_mosaic')),
         'portrait':      ('portraits',     ('http://arachne.uni-koeln.de/type/objectType/portrait',)),
-        'relief':        ('reliefs',       ('http://arachne.uni-koeln.de/type/objectType/relief', 'http://purl.org/NET/Claros/vocab#LIMC/Domaine/relief')),
+        'relief':        ('reliefs',       ('http://arachne.uni-koeln.de/type/objectType/relief',
+                                            'http://purl.org/NET/Claros/vocab#LIMC/Domaine/relief')),
         'monument':      ('monuments',     ('http://arachne.uni-koeln.de/type/objectType/monument',)),
 
         'sculpture-in-the-round': ('sculpture in the round', ('http://purl.org/NET/Claros/vocab#LIMC/Domaine/sculpture_in_the_round',)),
-        'gem':           ('gems', ('http://purl.org/NET/Claros/vocab#LIMC/Domaine/gem', 'http://arachne.uni-koeln.de/type/objectType/gemme', 'http://arachne.uni-koeln.de/type/objectType/gemme-kameo')),
+        'gem':           ('gems',          ('http://purl.org/NET/Claros/vocab#LIMC/Domaine/gem',
+                                            'http://arachne.uni-koeln.de/type/objectType/gemme',
+                                            'http://arachne.uni-koeln.de/type/objectType/gemme-kameo')),
 
-        'statue':        ('statues', ('http://purl.org/NET/Claros/vocab#LIMC/Support/statue',)),
-        'applique':      ('applique', ('http://purl.org/NET/Claros/vocab#LIMC/Support/applique',)),
-        'papyrus':       ('papyrus', ('http://arachne.uni-koeln.de/type/objectType/papyrus',)),
+        'statue':        ('statues',       ('http://purl.org/NET/Claros/vocab#LIMC/Support/statue',)),
+        'applique':      ('applique',      ('http://purl.org/NET/Claros/vocab#LIMC/Support/applique',)),
+        'papyrus':       ('papyrus',       ('http://arachne.uni-koeln.de/type/objectType/papyrus',)),
     }
 
     @cached_view
