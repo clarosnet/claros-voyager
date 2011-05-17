@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Objects{% endblock %}
+
+{% block body %}
+    <h1>Objects</h1>
+
+    <div class="text-content">
+
+    <p>Choose a class of object to view:</p>
+    
+    <ul>
+{% for type in types %}
+      <li><a href="{% url claros-objects-detail type.0 %}">{{ type.1.0|capfirst }}</a></li>
+{% endfor %}
+    
+    </ul>
+
+    </div>
+{% endblock %}
