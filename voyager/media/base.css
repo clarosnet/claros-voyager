@@ -5,23 +5,28 @@ div#header {
 table.description {
 	background-color:#fff;
     margin-top:20px;
-	border-collapse: collapse;
-	border:2px solid fff;
+	border:1px solid fff;
     font-size:10pt;
-    width:780px;
+    width:778px;
 }
 
-table.description th, table.description td {
-    padding:5px;
+div#content a {
+	color:#333 !important;
 }
 
-table.description tr.row-odd th, table.description tr.row-odd td {
-	background-color:#DDE2E6;
+
+tr.row-odd {
+    background-color: #ddd;
 }
 
-table.description tr.row-even th, table.description tr.row-even td {
-	background-color:#E6E6E6;
+tr.row-even {
+    background-color: #eee;
 }
+
+table.description td, table.sparql-results td {
+    padding:2px;
+}
+
 
     ul.object-images {
       list-style: none;
@@ -146,4 +151,13 @@ form table th {
 
 form table textarea {
     width: 100%;
+}
+
+div.olControlAttribution {
+    background-color: rgba(255, 255, 255, 0.6);
+    bottom: 0;
+    font-size: 10px;
+    padding: 2px;
+    position: absolute;
+    right: 0;
 }
