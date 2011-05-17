@@ -1,6 +1,9 @@
 import random
 from collections import defaultdict
 
+from django.http import HttpResponsePermanentRedirect
+from django.core.urlresolvers import reverse
+
 from humfrey.desc.views import EndpointView, RDFView, SRXView
 from humfrey.utils.resource import Resource
 from humfrey.utils.namespaces import NS
@@ -34,7 +37,6 @@ class ObjectView(EndpointView, RDFView):
               } LIMIT 1000 }""" % graph_name for graph_name in _graph_names) + """
         }
     """
-    print _query
     
     _query = """
       PREFIX  rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -73,41 +75,46 @@ class ObjectView(EndpointView, RDFView):
 
 class PeopleView(EndpointView, SRXView):
     _query = """
-      SELECT ?person ?appellation ?birth_period_begin ?birth_period_end ?birth_place ?birth_place_name WHERE {
+      SELECT ?person ?appellation ?birth_period_label ?birth_place ?birth_place_label WHERE {
         ?person a crm:E21_Person .
         OPTIONAL { ?person crm:P131_is_identified_by/rdf:value ?appellation } .
         OPTIONAL {
           ?person crm:P98i_was_born ?birth .
           OPTIONAL {
-            ?birth crm:P4_has_time-span/crm:P82_at_some_time_within [
-              claros:period_begin ?birth_period_begin ;
-              claros:period_end ?birth_period_end ] } .
+            ?birth crm:P4_has_time-span/rdfs:label ?birth_period_label } .
           OPTIONAL {
             ?birth crm:P7_took_place_at ?birth_place .
             OPTIONAL {
-              ?birth_place crm:P87_is_identified_by ?birth_place_name }
+              ?birth_place rdfs:label ?birth_place_label }
           }
         }
-      } LIMIT 1000
+      } OFFSET %s LIMIT 1000
     """
 
     @cached_view    
-    def handle_GET(self, request, context):
-        results = list(self.endpoint.query(self._query))
+    def handle_GET(self, request, context, page=None):
+        if page:
+            page = int(page)
+            if page == 1:
+                return HttpResponsePermanentRedirect(reverse('claros-people'))
+        else:
+            page = 1
+
+        results = list(self.endpoint.query(self._query % ((page-1)*1000)))
         people = defaultdict(lambda:defaultdict(set))
         for result in results:
-        	person = people[result.person.uri]
-        	person['uri'] = result.person
-        	person['appellations'].add(result.appellation)
-        	person['birth_period_begin'] = result.birth_period_begin
-        	person['birth_period_end'] = result.birth_period_end
-        	person['birth_place'] = result.birth_place
-        	person['birth_place_name'].add(result.birth_place_name)
+            person = people[result.person.uri]
+            person['uri'] = result.person
+            person['appellations'].add(result.appellation)
+            person['birth_period_label'] = result.birth_period_label
+            person['birth_place'] = result.birth_place
+            person['birth_place_label'] = result.birth_place_label
         people = people.values()
-        	  
+
         context.update({
             'results': results,
             'people': people,
+            'page': page,
         })
         return self.render(request, context, 'claros/people')
 
