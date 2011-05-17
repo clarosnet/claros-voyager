@@ -10,16 +10,16 @@
       <img style="border: 0pt none;" alt="" src="/site-media/follow.png">
     </a>
   </h1>
-  
+  <p style="text-align:center; font-family:monospace; font-size:8pt;">{{ subject.uri }}</p>
+
   {% block description %}
     {% if subject.is_image %}
       <img src="{{ subject.uri }}" title="{{ subject.label }}" width="100%"/>
     {% endif %}
   {% endblock %}
-  
+
   {% if subject.depictions %}
 
-    
   <ul class="object-images">
   {% for depiction in subject.depictions %}
     <li{% if forloop.counter0|divisibleby:5 and forloop.counter0 %} class="image-break"{% endif %}>
@@ -31,7 +31,7 @@
   </ul>
   <div style="clear:both;"> </div>
   {% endif %}
-  
+
   <div class="sidebar">
     {% if subject.geo_lat and subject.geo_long %}
     <div style="width:180px; height:180px" id="subject-map"/></div>
@@ -62,7 +62,7 @@
       </li>
 {% endfor %}
     </ul>
-    
+
               {% if subject.rdf_type %}
 <p>
               Other things of type:
@@ -72,13 +72,17 @@
               {% endfor %}
             </p>
           {% endif %}
-    
+
+          <p>            <a href="{% url sparql %}?query={{ "SELECT ?subject ?predicate WHERE {  ?subject ?predicate <"|urlencode }}{{ subject.uri|urlencode }}{{ "> } LIMIT 200"|urlencode }}">
+              What links here
+            </a></p>
+
     <p>
     <a href="{{ subject.uri }}">
       View more detail at partner's website
     </a></p>
   </div>  
-  
+
   <table class="description">
     <tbody>
   {% for property, objects in subject.properties %}
