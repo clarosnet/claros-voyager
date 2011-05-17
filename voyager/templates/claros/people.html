@@ -6,11 +6,26 @@
 <div id="content">
   <h1>People</h1>
   
+  <p style="text-align:center">
+    {% if page > 2 %}
+      <a href="{% url claros-people-page page|add:"-1" %}">&#8678;</a>
+    {% endif %}
+    {% if page == 2 %}
+      <a href="{% url claros-people %}">&#8678;</a>
+    {% endif %}
+    {% if page == 1 %}
+      &#8678;
+    {% endif %}
+    Page {{ page }}
+    <a href="{% url claros-people-page page|add:"1" %}">&#8680;</a>
+  </p>
+  
   <table class="description">
     <thead>
       <tr>
         <th>Names</th>
-        <th>Birth year</th>
+        <th>Year of birth</th>
+        <th>Place of birth</th>
       </tr>
     </thead>
     <tbody>
@@ -25,14 +40,13 @@
           </a>
         </td>
         <td>
-          {{ person.birth_period_begin }} &ndash; {{ person.birth_period_end }}
+          {{ person.birth_period_label }}
         </td>
         <td>
-        {% if person.birth_place_name %}
-          <a href="{{ person.birth_place.doc_url }}">{{ person.birth_place_name }}</a>
-        {% else %}
-          {{ person.birth_place|node }}
+        {% if person.birth_place_label %}
+          <a href="{{ person.birth_place.doc_url }}">{{ person.birth_place_label }}</a>
         {% endif %}
+
         </td>
       </tr>
 {% endfor %}
