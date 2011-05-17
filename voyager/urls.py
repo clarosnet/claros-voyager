@@ -18,7 +18,10 @@ urlpatterns = patterns('',
     (r'^desc/$', DescView(), {}, 'desc'),
     
     (r'^objects/$', ObjectView(), {}, 'claros-objects'),
+
     (r'^people/$', PeopleView(), {}, 'claros-people'),
+    (r'^people/(?P<page>[1-9]\d*)/$', PeopleView(), {}, 'claros-people-page'),
+
 #    (r'^graph/.*$', GraphView(), {}, 'graph'),
 #    (r'^datasets/$', DatasetView(), {}, 'datasets'),
     (r'^sparql/$', SparqlView(), {}, 'sparql'),
