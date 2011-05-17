@@ -22,10 +22,16 @@ class Place(object):
 
     @property
     def geo_long(self):
-        return self.get('claros:coordinates').geo_long
+        ids = self.get_all('crm:P87_is_identified_by')
+        for id_ in ids:
+            if id_.geo_long:
+               return id_.geo_long
     @property
     def geo_lat(self):
-        return self.get('claros:coordinates').geo_lat
+        ids = self.get_all('crm:P87_is_identified_by')
+        for id_ in ids:
+            if id_.geo_lat:
+               return id_.geo_lat
 
 register(Place, 'crm:E53_Place')
 
