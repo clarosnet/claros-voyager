@@ -3,9 +3,8 @@
 {% block title %}People{% endblock %}
 
 {% block body %}
-<div id="content">
   <h1>People</h1>
-  
+  <div class="text-content">
   <p style="text-align:center">
     {% if page > 2 %}
       <a href="{% url claros-people-page page|add:"-1" %}">&#8678;</a>
@@ -52,5 +51,5 @@
 {% endfor %}
     </tbody>
   </table>
-</div>
+  </div>
 {% endblock %}

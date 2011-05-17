@@ -3,9 +3,9 @@
 {% block title %}SPARQL{% endblock %}
 
 {% block body %}
-  <div id="content">
     <h1>SPARQL</h1>
     
+    <div class="text-content">
     {% if results.fields or result or subjects %}
       <h2>Results</h2>
     {% endif %}
@@ -63,6 +63,6 @@
         </tfoot>
       </table>
     </form>
+    </div>
   
-  </div>
 {% endblock %}
