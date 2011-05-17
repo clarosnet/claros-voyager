@@ -23,7 +23,8 @@ function voyager_simple_map(id, longitude, latitude) {
 }
 
 $(function () {
-	$('#query').css('overflow', 'hidden').css('cursor', 'pointer').height(150).append($('<div id="query-fade"/>').bind('click', expand_query)).bind('click', expand_query);
+	if ($('#query').height() > 150) 
+	    $('#query').css('overflow', 'hidden').css('cursor', 'pointer').height(150).append($('<div id="query-fade"/>').bind('click', expand_query)).bind('click', expand_query);
 });
 	
 function expand_query() {
