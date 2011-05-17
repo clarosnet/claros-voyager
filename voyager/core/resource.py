@@ -38,7 +38,6 @@ register(PlaceName, 'crm:E48_Place_Name')
 class SpatialCoordinates(object):
     @property
     def label(self):
-        print self.claros_has_geoObject
         return "%s, %s" % (self.claros_has_geoObject.geo_lat, self.claros_has_geoObject.geo_long)
 
     def geo_lat(self):
@@ -52,15 +51,14 @@ register(SpatialCoordinates, 'crm:E47_Place_Spatial_Coordinates')
 class Point(object):
     @property
     def label(self):
-        print self.claros_has_geoObject
         return "POINT(%s, %s)" % (self.geo_lat, self.geo_long)
 register(Point, 'geo:Point')
 
 class Birth(object):
     @property
     def label(self):
-        period = self.get('crm:P4_has_time-span').get('crm:P82_at_some_time_within')
-        return mark_safe('Between %d and %d, at %s' % (int(period.claros_period_begin), int(period.claros_period_end), self.crm_P7_took_place_at.render()))
+        ts = self.get('crm:P4_has_time-span')
+        return mark_safe('%s, at %s' % (ts.rdfs_label, self.crm_P7_took_place_at.render()))
 register(Birth, 'crm:E67_Birth')
 
 class ManMadeObject(object):
@@ -91,3 +89,23 @@ class Activity(object):
 #    def label(self):
 #        return 'e'
 register(Activity, 'crm:E7_Activity')
+
+
+class Person(object):
+    @classmethod
+    def _describe_patterns(cls, uri, get_names):
+        n1, n2 = get_names(2)
+        params = {'uri': uri.n3(), 'n1': n1, 'n2': n2}
+        return [
+            '%(uri)s claros:coordinates-born %(n1)s' % params,
+            '%(uri)s crm:P98i_was_born %(n1)s . %(n1)s crm:P7_took_place_at %(n2)s' % params,
+            '%(uri)s crm:P131_is_identified_by %(n1)s' % params,
+        ]
+register(Person, 'crm:E21_Person')
+
+class ActorAppellation(object):
+    @property
+    def label(self):
+        value = self.rdf_value
+        return '%s (%s)' % (unicode(value), value.language)
+register(ActorAppellation, 'crm:E82_Actor_Appellation')
