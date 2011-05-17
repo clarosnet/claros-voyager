@@ -4,10 +4,27 @@
 
 {% block body %}
   <div id="content">
-    <h1>Claros Voyager</h1>
+    <h1>CLAROS Data</h1>
 
-    <p>The Claros Voyager provides a RESTful interface for the data of the
-       <a href="http://clarosnet.org/">Claros Project</a>, and complements the
-       Claros Explorer.</p>
+    <div class="text-content">
+
+    <p>The CLAROS Data service provides a RESTful interface for the data of the
+       <a href="http://clarosnet.org/">CLAROS Project</a>, and complements the
+       CLAROS Explorer.</p>
+
+    <p>This service provides metadata about classical art objects in
+       machine-readable formats such as RDF, JSON and KML.</p>
+
+    <p>The data for the CLAROS project are modelled using the
+       <a href="http://erlangen-crm.org/">Erlangen RDF representation</a> of
+       the <a href="http://www.cidoc-crm.org/">CIDOC Conceptual Reference
+       Model</a> using the <code>http://purl.org/NET/crm-owl#</code>
+       namespace.</p>
+
+    <p>You can use the <a href="{% url claros-objects %}">Objects</a> and
+       <a href="{% url claros-objects %}">People</a> views to start exploring,
+       or try your hand at <a href="{% url sparql %}">a SPARQL query</a>.</p>
+
+    </div>
   </div>
 {% endblock %}
