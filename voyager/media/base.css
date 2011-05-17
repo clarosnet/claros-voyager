@@ -40,6 +40,7 @@ table.description tr.row-even th, table.description tr.row-even td {
       text-align: center;
       vertical-align: top;
       float:left;
+      background-color:#576d7f;
     }
 
 ul.object-images li:first-child, ul.object-images li.image-break {
@@ -89,3 +90,6 @@ div.sidebar h3, div.sidebar a {
 margin-top:2px;
 color: #2E3C48;
 }
+
+.text-content {
+	margin:2em;
