@@ -1,16 +1,15 @@
 {% extends "base.html" %}{% load humfrey_desc %}
 
-{% block extrahead %}
-  <style type="text/css">
-
-  </style>
-{% endblock %}
-
-{% block title %}Objects{% endblock %}
+{% block title %}{{ type.0|capfirst }}{% endblock %}
 
 {% block body %}
-<div id="content">
-  <h1>Man-made objects</h2>
+  <h1>{{ type.0|capfirst }}</h2>
+  <p class="text-content" style="text-align:center">
+{% for type in types %}
+    <a href="{% url claros-objects-detail type.0 %}">{{ type.1.0|capfirst }}</a>
+    {% if not forloop.last%}&#8226;{% endif %}
+{% endfor %}
+  </p>
   
   <ul class="object-images">
   {% for subject in subjects %}
@@ -23,5 +22,4 @@
   {% endfor %}
   </ul>
   <div style="clear:both;"> </div>
-</div>
 {% endblock %}

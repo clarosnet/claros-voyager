@@ -18,6 +18,7 @@ urlpatterns = patterns('',
     (r'^desc/$', DescView(), {}, 'desc'),
     
     (r'^objects/$', ObjectView(), {}, 'claros-objects'),
+    (r'^objects/(?P<ptype>[a-z-]+)/$', ObjectView(), {}, 'claros-objects-detail'),
 
     (r'^people/$', PeopleView(), {}, 'claros-people'),
     (r'^people/(?P<page>[1-9]\d*)/$', PeopleView(), {}, 'claros-people-page'),
