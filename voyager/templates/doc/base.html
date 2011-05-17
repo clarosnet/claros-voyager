@@ -13,7 +13,10 @@
 
   {% block description %}
     {% if subject.is_image %}
-      <img src="{{ subject.uri }}" title="{{ subject.label }}" width="100%"/>
+      <div style="text-align:center;">
+        <img src="{{ subject.uri }}" title="{{ subject.label }}" style="max-width:100%"/>
+        <div style="clear:both;"> </div>
+      </div>
     {% endif %}
   {% endblock %}
 
