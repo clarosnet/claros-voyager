@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-GB">
   <head>
-    <title>{% block title %}Open Data about the University of Oxford{% endblock %} | Claros RDF Voyager</title>
+    <title>{% block title %}Data from the CLAROS Project{% endblock %} | data.clarosnet.org | CLAROS Data</title>
     
     {% with "http://claros1.oerc.ox.ac.uk/XDB/ASP/clarosHome/styles/" as EXPLORER_STYLE %}
     <link rel="stylesheet" type="text/css" href="{{ EXPLORER_STYLE }}basic.css" media="all"/>
@@ -27,7 +27,7 @@
     <div id="all">
       <div id="header">
         <a id="logoLink" href="/">
-          <span id="site-title">data.clarosnet.org: The data of the Claros Project on the semantic web</span>
+          <span id="site-title">data.clarosnet.org: The data of the CLAROS Project on the semantic web</span>
         </a>
       <div class="mainnav">
         <ul>
@@ -35,7 +35,7 @@
           <li><a href="{% url index %}">Home</a></li>
           <li><a href="{% url claros-objects %}">Objects</a></li>
           <li><a href="{% url claros-people %}">People</a></li>
-          <li><a href="{% url claros-people %}">Places</a></li>
+{#          <li><a href="{% url claros-people %}">Places</a></li> #}
           <li><a href="{% url sparql %}">SPARQL</a></li>
 {% endblock %}
         </ul>
@@ -51,7 +51,10 @@
     <div id="footer">
       <p>
         Hosted by the University of Oxford's e-research centre, <a href="http://www.oerc.ox.ac.uk/">OeRC</a><br/>
-        This interface was built using <a href="http://openjena.org/wiki/Fuseki">Fuseki</a>, <a href="https://github.com/oucs/humfrey">humfrey</a>, and <a href="https://github.com/clarosnet/claros-voyager">a tweaked frontend</a>.
+        This interface was built using <a href="http://openjena.org/wiki/Fuseki">Fuseki</a>,
+        <a href="https://github.com/oucs/humfrey">humfrey</a>, and
+        <a href="https://github.com/clarosnet/claros-voyager">a tweaked frontend</a>, all
+        <a href="http://www.opensource.org/">open-source software</a>.
       </p>
     </div>
   </body>
