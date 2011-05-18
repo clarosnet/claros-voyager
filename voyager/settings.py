@@ -3,6 +3,12 @@ import os
 
 from humfrey.settings.common import *
 
+ADMINS = (
+    ('Open Data at OUCS', 'opendata@oucs.ox.ac.uk'),
+)
+
+MANAGERS = ADMINS
+
 ENDPOINT_URL = 'http://localhost:8080/claros_server-1.0/endpoint/combined'
 
 INSTALLED_APPS += (
