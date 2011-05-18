@@ -8,6 +8,7 @@
     <div class="text-content">
     {% if results.fields or result or subjects %}
       <h2>Results</h2>
+      <p>Query took {{ duration|floatformat:3 }} seconds.</p>
     {% endif %}
     
     {% if results.fields %}
