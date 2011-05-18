@@ -61,8 +61,7 @@ class Point(object):
 register(Point, 'geo:Point')
 
 class Birth(object):
-    @property
-    def label(self):
+    def render(self):
         ts = self.get('crm:P4_has_time-span')
         return mark_safe('%s, at %s' % (ts.rdfs_label, self.crm_P7_took_place_at.render()))
 register(Birth, 'crm:E67_Birth')
