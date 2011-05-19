@@ -6,6 +6,7 @@ from humfrey.desc.views import IdView, DocView, DescView, SparqlView
 from humfrey.images.views import ResizedImageView
 from voyager.core.views import IndexView, ObjectView, PeopleView, ForbiddenView
 
+
 #from humfrey.dataox.views import DatasetView, ExploreView, ExampleDetailView, ExampleResourceView, ExampleQueryView, ContactView, ForbiddenView, HelpView, ResizedImageView
 
 
@@ -37,6 +38,8 @@ urlpatterns = patterns('',
 
 #    (r'^explore/(?P<slug>[a-z\d-]+)/$', ExampleDetailView(), {}, 'example-detail'),
 #    (r'^explore/example:(?P<slug>[a-z\d-]+)/$', redirect_to, {'url': '/explore/%(slug)s/'}),
+
+    (r'^pingback/', include('humfrey.pingback.urls')),
 
     (r'^external-image/$', ResizedImageView(), {}, 'resized-image'),    
 )
