@@ -1,14 +1,33 @@
-import random, rdflib
+import random, rdflib, datetime
 from collections import defaultdict
+
+import feedparser, pytz
 
 from django.http import HttpResponsePermanentRedirect
 from django.core.urlresolvers import reverse
+from django.conf import settings
 
 from humfrey.desc.views import EndpointView, RDFView, SRXView
 from humfrey.utils.resource import Resource
 from humfrey.utils.namespaces import NS
 from humfrey.utils.views import BaseView
 from humfrey.utils.cache import cached_view
+
+class IndexView(BaseView):
+    def initial_context(self, request):
+        try:
+            feed = feedparser.parse("http://clarosdata.wordpress.com/feed/")
+            for entry in feed.entries:
+                entry.updated_datetime = datetime.datetime(*entry.updated_parsed[:6], tzinfo=pytz.utc).astimezone(pytz.timezone(settings.TIME_ZONE))
+        except Exception, e:
+            feed = None
+        return {
+            'feed': feed,
+        }
+
+    @cached_view
+    def handle_GET(self, request, context):
+        return self.render(request, context, 'index')
 
 class ObjectView(EndpointView, RDFView):
     _query = """

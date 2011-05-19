@@ -2,10 +2,32 @@
 
 {% block title %}Home{% endblock %}
 
+{% block extrahead %}{% if feed %}
+<link rel="alternate" type="application/rss+xml" title="{{ feed.feed.title }}" href="{{ feed.href }}" />
+{% endif %}{% endblock %}
+
 {% block body %}
     <h1>CLAROS Data</h1>
 
     <div class="text-content">
+    {% if feed %}
+    <div class="blog-feed">
+      <h2><a href="{{ feed.feed.link }}">The CLAROS data blog</a></h2>
+
+      {% for entry in feed.entries|slice:":5" %}
+        <div class="blog-entry">
+          <h3><a href="{{ entry.link }}">{{ entry.title }}</a></h3>
+
+          <p class="blog-entry-date">{{ entry.updated_datetime }}</p>
+
+          {{ entry.content.0.value|truncatewords_html:20|safe }}
+
+          <p class="blog-entry-more"><a href="{{ entry.link }}">Continue reading &#10145;</a></p>
+        </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
 
     <p>The CLAROS Data service provides a RESTful interface for the data of the
        <a href="http://www.clarosnet.org/">CLAROS Project</a>, and complements the
@@ -24,5 +46,7 @@
        <a href="{% url claros-people %}">People</a> views to start exploring,
        or try your hand at <a href="{% url sparql %}">a SPARQL query</a>.</p>
 
-    </div>
+  </div>
+
+  <div style="clear:both;"> </div>
 {% endblock %}

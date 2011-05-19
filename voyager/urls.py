@@ -2,9 +2,9 @@ from django.conf.urls.defaults import *
 from django.conf import settings
 from django.views.generic.simple import redirect_to
 
-from humfrey.desc.views import IndexView, IdView, DocView, DescView, SparqlView
+from humfrey.desc.views import IdView, DocView, DescView, SparqlView
 from humfrey.images.views import ResizedImageView
-from voyager.core.views import ObjectView, PeopleView, ForbiddenView
+from voyager.core.views import IndexView, ObjectView, PeopleView, ForbiddenView
 
 #from humfrey.dataox.views import DatasetView, ExploreView, ExampleDetailView, ExampleResourceView, ExampleQueryView, ContactView, ForbiddenView, HelpView, ResizedImageView
 
