@@ -89,7 +89,11 @@ register(ManMadeObject, 'crm:E22_Man-Made_Object')
 
 class Activity(object):
     def render(self):
-        return mark_safe(u"Found at %s" % self.crm_P7_took_place_at.render())
+        try:
+            return mark_safe(u"Found at %s" % self.crm_P7_took_place_at.render())
+        except AttributeError:
+            return "Undescribed find event"
+
 #    @property
 #    def label(self):
 #        return 'e'
