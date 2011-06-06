@@ -3,11 +3,11 @@ from collections import defaultdict
 
 import feedparser, pytz
 
-from django.http import HttpResponsePermanentRedirect
+from django.http import Http404, HttpResponsePermanentRedirect
 from django.core.urlresolvers import reverse
 from django.conf import settings
 
-from humfrey.desc.views import EndpointView, RDFView, SRXView
+from humfrey.desc.views import EndpointView, RDFView, ResultSetView
 from humfrey.utils.resource import Resource
 from humfrey.utils.namespaces import NS
 from humfrey.utils.views import BaseView
@@ -102,7 +102,7 @@ class ObjectView(EndpointView, RDFView):
         })
         return self.render(request, context, 'claros/objects')
 
-class PeopleView(EndpointView, SRXView):
+class PeopleView(EndpointView, ResultSetView):
     _query = """
       SELECT ?person ?appellation ?birth_period_label ?birth_place ?birth_place_label WHERE {
         ?person a crm:E21_Person .

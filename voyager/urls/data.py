@@ -9,9 +9,6 @@ from voyager.core.views import IndexView, ObjectView, PeopleView, ForbiddenView
 
 #from humfrey.dataox.views import DatasetView, ExploreView, ExampleDetailView, ExampleResourceView, ExampleQueryView, ContactView, ForbiddenView, HelpView, ResizedImageView
 
-
-import resource
-
 urlpatterns = patterns('',
     (r'^$', IndexView(), {}, 'index'),
     (r'^id/.*$', IdView(), {}, 'id'),
