@@ -84,7 +84,8 @@ class ObjectView(EndpointView, RDFView):
         graph = self.endpoint.query(self._query % type_uri.n3())
         subjects = graph.subjects(NS['crm'].P138i_has_representation)
         subjects = [Resource(s, graph, self.endpoint) for s in subjects]
-        subjects = random.sample(subjects, 200)
+        random.shuffle(subjects)
+        subjects[200:] = []
 
         return {
             'type': type_resource,
