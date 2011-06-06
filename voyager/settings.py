@@ -43,13 +43,15 @@ TEMPLATE_DIRS = (
 
 ID_MAPPING = (
     ('http://id.clarosnet.org/', 'http://data.clarosnet.org/doc/', True),
-    ('http://www.mae.u-paris10.fr/limc-france/LIMC-objet.php?code_objet=', 'http://data.clarosnet.org/doc:limc/', False),
+    ('http://www.mae.u-paris10.fr/limc-france/LIMC-objet.php?code_objet=', 'http://data.clarosnet.org/doc:limc/object/', False),
+    ('http://www.mae.u-paris10.fr/limc-france/images/', 'http://data.clarosnet.org/doc:limc/image/', False),
     ('http://www.lgpn.ox.ac.uk/id/', 'http://data.clarosnet.org/doc:lgpn/person/', False),
     ('http://www.lgpn.ox.ac.uk/placecode/', 'http://data.clarosnet.org/doc:lgpn/place/', False),
     ('http://www.lgpn.ox.ac.uk/coordinates/', 'http://data.clarosnet.org/doc:lgpn/coordinates/', False),
     ('http://www.lgpn.ox.ac.uk/placename/', 'http://data.clarosnet.org/doc:lgpn/placename/', False),
     ('http://jameelcentre.ashmolean.org/', 'http://data.clarosnet.org/doc:jameel/', False),
     ('http://arachne.uni-koeln.de/', 'http://data.clarosnet.org/doc:arachne/', False),
+    ('http://purl.org/NET/crm-owl#', 'http://data.clarosnet.org/doc:crm/', False),
 )
 
 SERVED_DOMAINS = (
