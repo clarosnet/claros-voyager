@@ -153,3 +153,20 @@ class ForbiddenView(BaseView):
     def handle_GET(self, request, context):
         context['status_code'] = 403
         return self.render(request, context, 'forbidden')
+
+class NotFoundView(BaseView):
+    def __init__(self, template_name):
+        super(NotFoundView, self).__init__()
+        self._template_name = template_name
+
+    @cached_view
+    def handle_GET(self, request, context):
+        context['status_code'] = 404
+        return self.render(request, context, self._template_name)
+
+class ServerErrorView(BaseView):
+    @cached_view
+    def handle_GET(self, request, context):
+        context['status_code'] = 500
+        return self.render(request, context, '500')
+

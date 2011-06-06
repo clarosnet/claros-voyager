@@ -6,6 +6,7 @@ from humfrey.desc.views import IdView, DocView, DescView, SparqlView
 from humfrey.images.views import ResizedImageView
 from voyager.core.views import IndexView, ObjectView, PeopleView, ForbiddenView
 
+from voyager.core.views import ServerErrorView
 
 #from humfrey.dataox.views import DatasetView, ExploreView, ExampleDetailView, ExampleResourceView, ExampleQueryView, ContactView, ForbiddenView, HelpView, ResizedImageView
 
@@ -42,6 +43,8 @@ urlpatterns = patterns('',
 
     (r'^external-image/$', ResizedImageView(), {}, 'resized-image'),    
 )
+
+handler500 = ServerErrorView()
 
 if settings.DEBUG:
     urlpatterns += patterns('',

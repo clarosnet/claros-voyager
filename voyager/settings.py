@@ -16,9 +16,11 @@ INSTALLED_APPS += (
     'django_hosts',
 )
 
+MEDIA_URL = '//data.clarosnet.org/site-media/'
+
 MIDDLEWARE_CLASSES = ('django_hosts.middleware.HostsMiddleware',) + MIDDLEWARE_CLASSES
 
-ROOT_URLCONF = 'voyager.urls'
+ROOT_URLCONF = 'voyager.urls.empty'
 ROOT_HOSTCONF = 'voyager.hosts'
 DEFAULT_HOST = 'empty'
 MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'media')
