@@ -32,11 +32,11 @@
       <div class="mainnav">
         <ul>
 {% block nav %}
-          <li><a href="{% url index %}">Home</a></li>
-          <li><a href="{% url claros-objects %}">Objects</a></li>
-          <li><a href="{% url claros-people %}">People</a></li>
-{#          <li><a href="{% url claros-people %}">Places</a></li> #}
-          <li><a href="{% url sparql %}">SPARQL</a></li>
+          <li><a href="{% host_url index on data %}">Home</a></li>
+          <li><a href="{% host_url claros-objects on data %}">Objects</a></li>
+          <li><a href="{% host_url claros-people on data %}">People</a></li>
+{#          <li><a href="{% host_url claros-people on data %}">Places</a></li> #}
+          <li><a href="{% host_url sparql on data %}">SPARQL</a></li>
 {% endblock %}
         </ul>
       </div>
