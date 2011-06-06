@@ -12,7 +12,9 @@ from voyager.core.views import IndexView, ObjectView, PeopleView, ForbiddenView
 urlpatterns = patterns('',
     (r'^$', IndexView(), {}, 'index'),
     (r'^id/.*$', IdView(), {}, 'id'),
-    (r'^doc/.*$', DocView(), {}, 'doc'),
+
+    (r'^doc.+$', DocView(), {}, 'doc'),
+    (r'^doc/$', DocView(), {}, 'doc-generic'),
     (r'^desc/$', DescView(), {}, 'desc'),
     
     (r'^objects/$', ObjectView(), {}, 'claros-objects'),
