@@ -1,9 +1,9 @@
 {% extends "base.html" %}{% load humfrey_desc %}
 
-{% block title %}{{ type.0|capfirst }}{% endblock %}
+{% block title %}{{ type.rdfs_label|capfirst }}{% endblock %}
 
 {% block body %}
-  <h1>{{ type.0|capfirst }}</h2>
+  <h1>{{ type.rdfs_label|capfirst }}</h2>
   <p class="text-content" style="text-align:center">
 {% for type in types %}{% if type.rdfs_label %}
     <a href="{% url claros-objects-detail type.slug %}">{{ type.rdfs_label|capfirst }}</a>

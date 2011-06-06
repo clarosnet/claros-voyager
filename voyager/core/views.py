@@ -74,8 +74,11 @@ class ObjectView(EndpointView, RDFView):
         type_uri = rdflib.URIRef('http://id.clarosnet.org/type/object/%s' % ptype)
         types = ObjectCategoryView.get_object_types(self.endpoint)[1]
 
-        if not type_uri in [t._identifier for t in types]:
-            raise Exception(([t._identifier for t in types], type_uri))
+        for t in types:
+            if t._identifier == type_uri:
+                type_resource = t
+                break
+        else:
             raise Http404
 
         graph = self.endpoint.query(self._query % type_uri.n3())
@@ -84,6 +87,7 @@ class ObjectView(EndpointView, RDFView):
         subjects = random.sample(subjects, 200)
 
         return {
+            'type': type_resource,
             'types': types,
             'graph': graph,
             'subjects': subjects,
