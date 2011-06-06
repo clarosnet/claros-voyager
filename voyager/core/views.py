@@ -7,7 +7,7 @@ from django.http import Http404, HttpResponsePermanentRedirect
 from django.core.urlresolvers import reverse
 from django.conf import settings
 
-from humfrey.desc.views import EndpointView, RDFView, ResultSetView
+from humfrey.linkeddata.views import EndpointView, RDFView, ResultSetView
 from humfrey.utils.resource import Resource
 from humfrey.utils.namespaces import NS
 from humfrey.utils.views import BaseView
