@@ -1,0 +1,16 @@
+{% extends "base.html" %}{% load hosts %}
+
+{% block title %}Not Found{% endblock %}
+
+{% block body %}
+  <h1>Not Found</h1>
+    
+  <div class="text-content">
+
+  <p>The website at this domain hosts URIs in use by the CLAROS project. If
+     you are here by accident, you may be interested in
+     <a href="{% host_url index on data %}">visiting the main CLAROS data
+     site</a>.</p>
+    
+  </div>
+{% endblock %}
