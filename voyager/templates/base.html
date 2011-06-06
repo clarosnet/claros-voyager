@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
+{% load hosts %}<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-GB">
   <head>
     <title>{% block title %}Data from the CLAROS Project{% endblock %} | data.clarosnet.org | CLAROS Data</title>
     
-    {% with "http://claros1.oerc.ox.ac.uk/XDB/ASP/clarosHome/styles/" as EXPLORER_STYLE %}
+    {% with "http://explore.clarosnet.org/XDB/ASP/clarosHome/styles/" as EXPLORER_STYLE %}
     <link rel="stylesheet" type="text/css" href="{{ EXPLORER_STYLE }}basic.css" media="all"/>
     <link rel="stylesheet" type="text/css" href="{{ EXPLORER_STYLE }}print.css" media="print"/>
     <link rel="stylesheet" type="text/css" href="{{ EXPLORER_STYLE }}full.css" media="screen and (min-device-width: 320px)"/>
