@@ -8,12 +8,12 @@
     <div class="text-content">
 
     <p>Choose a class of object to view:</p>
-    
+
     <ul>
-{% for type in types %}
-      <li><a href="{% url claros-objects-detail type.0 %}">{{ type.1.0|capfirst }}</a></li>
-{% endfor %}
-    
+{% for subject in subjects %}{% if subject.rdfs_label %}
+      <li><a href="{% url claros-objects-detail subject.slug %}">{{ subject.rdfs_label|capfirst }}</a></li>
+{% endif %}{% endfor %}
+
     </ul>
 
     </div>

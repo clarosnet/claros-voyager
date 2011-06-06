@@ -4,7 +4,7 @@ from django.views.generic.simple import redirect_to
 
 from humfrey.desc.views import IdView, DocView, DescView, SparqlView
 from humfrey.images.views import ResizedImageView
-from voyager.core.views import IndexView, ObjectView, PeopleView, ForbiddenView
+from voyager.core.views import IndexView, ObjectCategoryView, ObjectView, PeopleView, ForbiddenView
 
 from voyager.core.views import ServerErrorView
 
@@ -18,7 +18,7 @@ urlpatterns = patterns('',
     (r'^doc/$', DocView(), {}, 'doc-generic'),
     (r'^desc/$', DescView(), {}, 'desc'),
     
-    (r'^objects/$', ObjectView(), {}, 'claros-objects'),
+    (r'^objects/$', ObjectCategoryView(), {}, 'claros-objects'),
     (r'^objects/(?P<ptype>[a-z-]+)/$', ObjectView(), {}, 'claros-objects-detail'),
 
     (r'^people/$', PeopleView(), {}, 'claros-people'),

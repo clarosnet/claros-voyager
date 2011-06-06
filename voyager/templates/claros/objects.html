@@ -5,12 +5,12 @@
 {% block body %}
   <h1>{{ type.0|capfirst }}</h2>
   <p class="text-content" style="text-align:center">
-{% for type in types %}
-    <a href="{% url claros-objects-detail type.0 %}">{{ type.1.0|capfirst }}</a>
+{% for type in types %}{% if type.rdfs_label %}
+    <a href="{% url claros-objects-detail type.slug %}">{{ type.rdfs_label|capfirst }}</a>
     {% if not forloop.last%}&#8226;{% endif %}
-{% endfor %}
+{% endif %}{% endfor %}
   </p>
-  
+
   <ul class="object-images">
   {% for subject in subjects %}
     <li{% if forloop.counter0|divisibleby:5 and forloop.counter0 %} class="image-break"{% endif %}>
