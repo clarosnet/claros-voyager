@@ -52,7 +52,7 @@ class ObjectCategoryView(EndpointView):
         return {
             'graph': graph,
             'subjects': subjects,
-            'query': graph.query,
+            'queries': [graph.query],
         }
 
     def handle_GET(self, request, context):
@@ -92,7 +92,7 @@ class ObjectView(EndpointView, RDFView):
             'types': types,
             'graph': graph,
             'subjects': subjects,
-            'query': graph.query,
+            'queries': [graph.query],
         }
 
     @cached_view
@@ -141,7 +141,7 @@ class PeopleView(EndpointView, ResultSetView):
             'results': results,
             'people': people,
             'page': page,
-            'query': results.query,
+            'queries': [results.query],
         })
         return self.render(request, context, 'claros/people')
 

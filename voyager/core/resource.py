@@ -9,12 +9,10 @@ register(Image, 'crm:E38_Image')
 
 class Place(object):
     @classmethod
-    def _describe_patterns(cls, uri, get_names):
-        name, = get_names(1)
-        params = {'uri': uri.n3(), 'name': name}
+    def _describe_patterns(cls):
         return [
-            '%(uri)s crm:P87_is_identified_by %(name)s' % params,
-            '%(uri)s claros:coordinates %(name)s' % params,
+            '%(uri)s crm:P87_is_identified_by %(place_identifier)s',
+            '%(uri)s claros:coordinates %(place_coordinates)s',
         ]
 
     @property
@@ -76,14 +74,12 @@ class ManMadeObject(object):
         find_coordinates = self.get('claros:coordinates-find')
         return find_coordinates.geo_lat if find_coordinates else None
     @classmethod
-    def _describe_patterns(cls, uri, get_names):
-        name, = get_names(1)
-        params = {'uri': uri.n3(), 'name': name}
+    def _describe_patterns(cls):
         return [
-            '%(uri)s claros:coordinates-find %(name)s' % params,
-            '%(uri)s crm:P16i_was_used_for %(name)s' % params,
-            '%(uri)s crm:P2_has_type %(name)s' % params,
-            '%(uri)s crm:P138i_has_representation %(name)s' % params,
+            '%(uri)s claros:coordinates-find %(coordinates_find)s',
+            '%(uri)s crm:P16i_was_used_for %(object_use)s',
+            '%(uri)s crm:P2_has_type %(object_type)s',
+            '%(uri)s crm:P138i_has_representation %(object_representation)s',
         ]
 register(ManMadeObject, 'crm:E22_Man-Made_Object')
 
@@ -102,13 +98,11 @@ register(Activity, 'crm:E7_Activity')
 
 class Person(object):
     @classmethod
-    def _describe_patterns(cls, uri, get_names):
-        n1, n2 = get_names(2)
-        params = {'uri': uri.n3(), 'n1': n1, 'n2': n2}
+    def _describe_patterns(cls):
         return [
-            '%(uri)s claros:coordinates-born %(n1)s' % params,
-            '%(uri)s crm:P98i_was_born %(n1)s . %(n1)s crm:P7_took_place_at %(n2)s' % params,
-            '%(uri)s crm:P131_is_identified_by %(n1)s' % params,
+            '%(uri)s claros:coordinates-born %(n1)s',
+            '%(uri)s crm:P98i_was_born %(n1)s . %(n1)s crm:P7_took_place_at %(n2)s ; crm:P4_has_time-span %(n3)s',
+            '%(uri)s crm:P131_is_identified_by %(n1)s',
         ]
 register(Person, 'crm:E21_Person')
 
