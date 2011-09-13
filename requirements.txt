@@ -1,0 +1,2 @@
+feedparser
+django-conneg>=0.3.1

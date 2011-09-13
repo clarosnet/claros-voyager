@@ -3,8 +3,8 @@ from distutils.command.install import INSTALL_SCHEMES
 import os
 
 #################################
-# BEGIN borrowed from Django #
-# licensed under the BSD #
+# BEGIN borrowed from Django    #
+# licensed under the BSD        #
 # http://www.djangoproject.com/ #
 #################################
 
@@ -45,8 +45,19 @@ for dirpath, dirnames, filenames in os.walk('voyager'):
         data_files.append([dirpath, [os.path.join(dirpath, f) for f in filenames]])
 
 #################################
-# END borrowed from Django #
+# END borrowed from Django      #
 #################################
+
+
+# Idea borrowed from http://cburgmer.posterous.com/pip-requirementstxt-and-setuppy
+install_requires, dependency_links = [], []
+for line in open('requirements.txt'):
+    line = line.strip()
+    if line.startswith('-e'):
+        dependency_links.append(line[2:].strip())
+    elif line:
+        install_requires.append(line)
+
 
 setup(
     name='claros-voyager',
@@ -56,6 +67,7 @@ setup(
     version='0.1',
     packages=packages,
     license='BSD',
+    url='http://data.clarosnet.org/',
     long_description=open('README.rst').read(),
     classifiers=['Development Status :: 4 - Beta',
                  'Framework :: Django',
@@ -66,5 +78,7 @@ setup(
                  'Topic :: Internet :: WWW/HTTP :: Dynamic Content'],
     keywords=['sparql', 'linked data', 'RDF', 'REST', 'University of Oxford', 'CLAROS'],
     data_files=data_files,
+    install_requires=install_requires,
+    dependency_links=dependency_links,
 )
 
