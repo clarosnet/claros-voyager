@@ -6,30 +6,15 @@ import feedparser, pytz
 from django.http import Http404, HttpResponsePermanentRedirect
 from django.core.urlresolvers import reverse
 from django.conf import settings
+from django_conneg.views import HTMLView
 
-from humfrey.linkeddata.views import EndpointView, RDFView, ResultSetView
+from humfrey.utils.views import CachedView, EndpointView
+from humfrey.results.views.standard import RDFView, ResultSetView
 from humfrey.utils.resource import Resource
 from humfrey.utils.namespaces import NS
-from humfrey.utils.views import BaseView
 from humfrey.utils.cache import cached_view
 
-class IndexView(BaseView):
-    def initial_context(self, request):
-        try:
-            feed = feedparser.parse("http://clarosdata.wordpress.com/feed/")
-            for entry in feed.entries:
-                entry.updated_datetime = datetime.datetime(*entry.updated_parsed[:6], tzinfo=pytz.utc).astimezone(pytz.timezone(settings.TIME_ZONE))
-        except Exception, e:
-            feed = None
-        return {
-            'feed': feed,
-        }
-
-    @cached_view
-    def handle_GET(self, request, context):
-        return self.render(request, context, 'index')
-
-class ObjectCategoryView(EndpointView):
+class ObjectCategoryView(CachedView, HTMLView, RDFView):
     _query = """
       DESCRIBE ?type WHERE {
         ?type crm:P127_has_broader_term <http://id.clarosnet.org/type/object>
@@ -46,19 +31,17 @@ class ObjectCategoryView(EndpointView):
             subject.slug = subject._identifier.split('/')[-1]
         return graph, subjects
 
-    def initial_context(self, request):
+    def get(self, request):
         graph, subjects = self.get_object_types(self.endpoint)
 
-        return {
+        context = {
             'graph': graph,
             'subjects': subjects,
             'queries': [graph.query],
         }
-
-    def handle_GET(self, request, context):
         return self.render(request, context, 'claros/objects-index')
 
-class ObjectView(EndpointView, RDFView):
+class ObjectView(CachedView, HTMLView, RDFView):
     _query = """
       CONSTRUCT {
         ?obj rdfs:label ?label .
@@ -70,7 +53,7 @@ class ObjectView(EndpointView, RDFView):
       } LIMIT 2000
     """
 
-    def initial_context(self, request, ptype):
+    def get(self, request, ptype):
         type_uri = rdflib.URIRef('http://id.clarosnet.org/type/object/%s' % ptype)
         types = ObjectCategoryView.get_object_types(self.endpoint)[1]
 
@@ -87,7 +70,7 @@ class ObjectView(EndpointView, RDFView):
         random.shuffle(subjects)
         subjects[200:] = []
 
-        return {
+        context = {
             'type': type_resource,
             'types': types,
             'graph': graph,
@@ -95,11 +78,9 @@ class ObjectView(EndpointView, RDFView):
             'queries': [graph.query],
         }
 
-    @cached_view
-    def handle_GET(self, request, context, ptype):
         return self.render(request, context, 'claros/objects')
 
-class PeopleView(EndpointView, ResultSetView):
+class PeopleView(CachedView, HTMLView, ResultSetView):
     _query = """
       SELECT ?person ?appellation ?birth_period_label ?birth_place ?birth_place_label WHERE {
         ?person a crm:E21_Person .
@@ -118,7 +99,7 @@ class PeopleView(EndpointView, ResultSetView):
     """
 
     @cached_view    
-    def handle_GET(self, request, context, page=None):
+    def get(self, request, page=None):
         if page:
             page = int(page)
             if page == 1:
@@ -137,33 +118,12 @@ class PeopleView(EndpointView, ResultSetView):
             person['birth_place_label'] = result.birth_place_label
         people = people.values()
 
-        context.update({
+        context = {
             'results': results,
             'people': people,
             'page': page,
             'queries': [results.query],
-        })
+        }
         return self.render(request, context, 'claros/people')
 
-class ForbiddenView(BaseView):
-    @cached_view
-    def handle_GET(self, request, context):
-        context['status_code'] = 403
-        return self.render(request, context, 'forbidden')
-
-class NotFoundView(BaseView):
-    def __init__(self, template_name):
-        super(NotFoundView, self).__init__()
-        self._template_name = template_name
-
-    @cached_view
-    def handle_GET(self, request, context):
-        context['status_code'] = 404
-        return self.render(request, context, self._template_name)
-
-class ServerErrorView(BaseView):
-    @cached_view
-    def handle_GET(self, request, context):
-        context['status_code'] = 500
-        return self.render(request, context, '500')
 

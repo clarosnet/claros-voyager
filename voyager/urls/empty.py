@@ -1,9 +1,9 @@
-from django.conf.urls.defaults import *
+from django.conf.urls.defaults import patterns
 
-from voyager.core.views import NotFoundView, ServerErrorView
+from humfrey.misc import views as misc_views
 
 urlpatterns = patterns('',
 )
 
-handler404 = NotFoundView('404-empty')
-handler500 = ServerErrorView()
+handler404 = misc_views.SimpleView.as_view(context={'status_code': 404}, template_name='404-empty')
+handler500 = misc_views.SimpleView.as_view(context={'status_code': 500}, template_name='500')

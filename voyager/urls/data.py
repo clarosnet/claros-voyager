@@ -1,50 +1,42 @@
-from django.conf.urls.defaults import *
+from django.conf.urls.defaults import patterns, include, url
 from django.conf import settings
-from django.views.generic.simple import redirect_to
 
-from humfrey.desc.views import IdView, DocView, DescView, SparqlView
-from humfrey.images.views import ResizedImageView
-from voyager.core.views import IndexView, ObjectCategoryView, ObjectView, PeopleView, ForbiddenView
+from humfrey.desc import views as desc_views
+from humfrey.images import views as images_views
+from humfrey.sparql import views as sparql_views
+from humfrey.misc import views as misc_views
 
-from voyager.core.views import ServerErrorView
+from voyager.core import views as core_views
 
 #from humfrey.dataox.views import DatasetView, ExploreView, ExampleDetailView, ExampleResourceView, ExampleQueryView, ContactView, ForbiddenView, HelpView, ResizedImageView
 
 urlpatterns = patterns('',
-    (r'^$', IndexView(), {}, 'index'),
-    (r'^id/.*$', IdView(), {}, 'id'),
+    (r'^$', misc_views.FeedView.as_view(rss_url="http://clarosdata.wordpress.com/feed/",
+                                        template_name="index"), {}, 'index'),
+    (r'^id/.*$', desc_views.IdView.as_view(), {}, 'id'),
 
-    (r'^doc.+$', DocView(), {}, 'doc'),
-    (r'^doc/$', DocView(), {}, 'doc-generic'),
-    (r'^desc/$', DescView(), {}, 'desc'),
+    (r'^doc.+$', desc_views.DocView.as_view(), {}, 'doc'),
+    (r'^doc/$', desc_views.DocView.as_view(), {}, 'doc-generic'),
+    (r'^desc/$', desc_views.DescView.as_view(), {}, 'desc'),
     
-    (r'^objects/$', ObjectCategoryView(), {}, 'claros-objects'),
-    (r'^objects/(?P<ptype>[a-z-]+)/$', ObjectView(), {}, 'claros-objects-detail'),
+    (r'^objects/$', core_views.ObjectCategoryView.as_view(), {}, 'claros-objects'),
+    (r'^objects/(?P<ptype>[a-z-]+)/$', core_views.ObjectView.as_view(), {}, 'claros-objects-detail'),
 
-    (r'^people/$', PeopleView(), {}, 'claros-people'),
-    (r'^people/(?P<page>[1-9]\d*)/$', PeopleView(), {}, 'claros-people-page'),
+    (r'^people/$', core_views.PeopleView.as_view(), {}, 'claros-people'),
+    (r'^people/(?P<page>[1-9]\d*)/$', core_views.PeopleView.as_view(), {}, 'claros-people-page'),
 
-#    (r'^graph/.*$', GraphView(), {}, 'graph'),
-#    (r'^datasets/$', DatasetView(), {}, 'datasets'),
-    (r'^sparql/$', SparqlView(), {}, 'sparql'),
-#    (r'^contact/$', ContactView(), {}, 'contact'),
-#    (r'^help/$', HelpView(), {}, 'help'),
+    (r'^sparql/$', sparql_views.SparqlView.as_view(), {}, 'sparql'),
 
-    (r'^forbidden/$', ForbiddenView(), {}, 'forbidden'),
-
-#    (r'^explore/$', ExploreView(), {}, 'explore'),
-#    (r'^explore/resources/$', ExampleResourceView(), {}, 'explore-resource'),
-#    (r'^explore/queries/$', ExampleQueryView(), {}, 'explore-query'),
-
-#    (r'^explore/(?P<slug>[a-z\d-]+)/$', ExampleDetailView(), {}, 'example-detail'),
-#    (r'^explore/example:(?P<slug>[a-z\d-]+)/$', redirect_to, {'url': '/explore/%(slug)s/'}),
+    (r'^forbidden/$', misc_views.SimpleView.as_view(context={'status_code': 403},
+                                                    template_name='forbidden'), {}, 'forbidden'),
 
     (r'^pingback/', include('humfrey.pingback.urls')),
 
-    (r'^external-image/$', ResizedImageView(), {}, 'resized-image'),    
+    (r'^external-image/$', images_views.ResizedImageView.as_view(), {}, 'resized-image'),    
 )
 
-handler500 = ServerErrorView()
+handler404 = misc_views.SimpleView.as_view(context={'status_code': 404}, template_name='404')
+handler500 = misc_views.SimpleView.as_view(context={'status_code': 500}, template_name='500')
 
 if settings.DEBUG:
     urlpatterns += patterns('',
