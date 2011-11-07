@@ -30,7 +30,7 @@ urlpatterns = patterns('',
     (r'^forbidden/$', misc_views.SimpleView.as_view(context={'status_code': 403},
                                                     template_name='forbidden'), {}, 'forbidden'),
 
-    (r'^pingback/', include('humfrey.pingback.urls')),
+    (r'^pingback/', include('humfrey.pingback.urls', 'pingback')),
 
     (r'^external-image/$', images_views.ResizedImageView.as_view(), {}, 'resized-image'),    
 )

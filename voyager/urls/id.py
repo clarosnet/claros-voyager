@@ -1,12 +1,12 @@
 from django.conf.urls.defaults import *
 
-from humfrey.desc.views import IdView
-
-from voyager.core.views import NotFoundView, ServerErrorView
+from humfrey.desc import views as desc_views
+from humfrey.misc import views as misc_views
 
 urlpatterns = patterns('',
-    (r'', IdView(), {}, 'id'),
+    (r'', desc_views.IdView.as_view(), {}, 'id'),
 )
 
-handler404 = NotFoundView('404-id')
-handler500 = ServerErrorView()
+
+handler404 = misc_views.SimpleView.as_view(context={'status_code': 404}, template_name='404-id')
+handler500 = misc_views.SimpleView.as_view(context={'status_code': 500}, template_name='500')

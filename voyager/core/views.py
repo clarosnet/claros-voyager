@@ -12,7 +12,6 @@ from humfrey.utils.views import CachedView, EndpointView
 from humfrey.results.views.standard import RDFView, ResultSetView
 from humfrey.utils.resource import Resource
 from humfrey.utils.namespaces import NS
-from humfrey.utils.cache import cached_view
 
 class ObjectCategoryView(CachedView, HTMLView, RDFView):
     _query = """
@@ -98,7 +97,6 @@ class PeopleView(CachedView, HTMLView, ResultSetView):
       } OFFSET %s LIMIT 1000
     """
 
-    @cached_view    
     def get(self, request, page=None):
         if page:
             page = int(page)
