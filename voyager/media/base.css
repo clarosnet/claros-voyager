@@ -204,3 +204,19 @@ p.blog-entry-more {
     font-style: italic;
     
 }
+
+ul.placeDetailObjects {
+	list-style: none;
+	padding-left: 0;
+	margin-left: 0;
+}
+
+ul.placeDetailObjects li {
+	padding-left: 0;
+	margin-left: 0;
+	margin-bottom: 5px;
+}
+
+ul.placeDetailObjects div.placeDetailObjectLabel {
+	margin-left:60px;
+}

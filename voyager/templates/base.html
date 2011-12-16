@@ -20,7 +20,7 @@
     <script type="application/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
     <script type="application/javascript" src="http://data.clarosnet.org/openlayers-media/OpenLayers.js"></script>
     <script type="application/javascript" src="{{ MEDIA_URL }}base.js"></script>
-    {% block extrahead %}{% endblock %}
+    {% block extra_head %}{% endblock %}
   </head>
 
   <body class="index">
@@ -35,8 +35,8 @@
           <li><a href="{% host_url index on data %}">Home</a></li>
           <li><a href="{% host_url claros-objects on data %}">Objects</a></li>
           <li><a href="{% host_url claros-people on data %}">People</a></li>
-{#          <li><a href="{% host_url claros-people on data %}">Places</a></li> #}
-          <li><a href="{% host_url sparql on data %}">SPARQL</a></li>
+          <li><a href="{% host_url places:index on data %}">Places</a></li> 
+          <li><a href="{% host_url sparql:endpoint on data %}">SPARQL</a></li>
 {% endblock %}
         </ul>
       </div>

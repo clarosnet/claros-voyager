@@ -11,28 +11,30 @@ from voyager.core import views as core_views
 #from humfrey.dataox.views import DatasetView, ExploreView, ExampleDetailView, ExampleResourceView, ExampleQueryView, ContactView, ForbiddenView, HelpView, ResizedImageView
 
 urlpatterns = patterns('',
-    (r'^$', misc_views.FeedView.as_view(rss_url="http://clarosdata.wordpress.com/feed/",
-                                        template_name="index"), {}, 'index'),
-    (r'^id/.*$', desc_views.IdView.as_view(), {}, 'id'),
+    url(r'^$', misc_views.FeedView.as_view(rss_url="http://clarosdata.wordpress.com/feed/",
+                                        template_name="index"), name='index'),
+    url(r'^id/.*$', desc_views.IdView.as_view(), name='id'),
 
-    (r'^doc.+$', desc_views.DocView.as_view(), {}, 'doc'),
-    (r'^doc/$', desc_views.DocView.as_view(), {}, 'doc-generic'),
-    (r'^desc/$', desc_views.DescView.as_view(), {}, 'desc'),
-    
-    (r'^objects/$', core_views.ObjectCategoryView.as_view(), {}, 'claros-objects'),
-    (r'^objects/(?P<ptype>[a-z-]+)/$', core_views.ObjectView.as_view(), {}, 'claros-objects-detail'),
+    url(r'^doc.+$', desc_views.DocView.as_view(), name='doc'),
+    url(r'^doc/$', desc_views.DocView.as_view(), name='doc-generic'),
+    url(r'^desc/$', desc_views.DescView.as_view(), name='desc'),
 
-    (r'^people/$', core_views.PeopleView.as_view(), {}, 'claros-people'),
-    (r'^people/(?P<page>[1-9]\d*)/$', core_views.PeopleView.as_view(), {}, 'claros-people-page'),
+    url(r'^objects/$', core_views.ObjectCategoryView.as_view(), name='claros-objects'),
+    url(r'^objects/(?P<ptype>[a-z-]+)/$', core_views.ObjectView.as_view(), name='claros-objects-detail'),
 
-    (r'^sparql/$', sparql_views.SparqlView.as_view(), {}, 'sparql'),
+    url(r'^people/$', core_views.PeopleView.as_view(), {}, 'claros-people'),
+    url(r'^people/(?P<page>[1-9]\d*)/$', core_views.PeopleView.as_view(), name='claros-people-page'),
 
-    (r'^forbidden/$', misc_views.SimpleView.as_view(context={'status_code': 403},
-                                                    template_name='forbidden'), {}, 'forbidden'),
+    url(r'^places/$', include('voyager.places.urls', 'places')),
 
-    (r'^pingback/', include('humfrey.pingback.urls', 'pingback')),
+    url(r'^sparql/', include('humfrey.sparql.urls', 'sparql')),
 
-    (r'^external-image/$', images_views.ResizedImageView.as_view(), {}, 'resized-image'),    
+    url(r'^forbidden/$', misc_views.SimpleView.as_view(context={'status_code': 403},
+                                                    template_name='forbidden'), name='forbidden'),
+
+    url(r'^pingback/', include('humfrey.pingback.urls.public', 'pingback')),
+
+    url(r'^external-image/$', images_views.ResizedImageView.as_view(), name='resized-image'),
 )
 
 handler404 = misc_views.SimpleView.as_view(context={'status_code': 404}, template_name='404')

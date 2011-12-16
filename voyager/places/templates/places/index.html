@@ -1,0 +1,21 @@
+{% extends "places/base.html" %}
+
+{% block title %}Places{% endblock %}
+
+{% block extra_head %}{{ block.super }}
+  <script type="application/javascript">
+    $(initPlaces);
+  </script>
+{% endblock %}
+
+{% block body %}
+<article>
+  <h1>Places</h1>
+  
+
+  <div id="place-detail" style="display:none; width:400px; height:400px; overflow:auto; float:right;"></div>
+  <div id="places-map" style="width:100%; height:400px"></div>
+  
+  
+</article>
+{% endblock %}

@@ -9,10 +9,10 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-ENDPOINT_URL = 'http://localhost:8080/claros_server-1.0/endpoint/combined'
 
 INSTALLED_APPS += (
     'voyager.core',
+    'voyager.places',
     'django_hosts',
 )
 
