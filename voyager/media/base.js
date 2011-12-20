@@ -81,9 +81,9 @@ function initPlaces() {
     map.addLayer(markers);
     
 
-    var size = new OpenLayers.Size(21,25);
+    var size = new OpenLayers.Size(13,22);
     var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-    var icon = new OpenLayers.Icon('http://www.openlayers.org/dev/img/marker.png',size,offset);
+    var icon = new OpenLayers.Icon('marker.png',size,offset);
     
     
     for (var i in bindings) {
