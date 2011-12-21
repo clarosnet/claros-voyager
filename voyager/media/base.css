@@ -64,6 +64,7 @@ margin-left:0;
     ul.object-images div.image-caption {
       position:absolute;
       background-color: rgba(87, 109, 127, 0.6);
+      color: #ffffff;
       width:176px;
       padding:2px;
     }
