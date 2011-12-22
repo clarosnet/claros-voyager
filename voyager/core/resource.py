@@ -23,20 +23,20 @@ class Place(object):
         ids = self.get_all('crm:P87_is_identified_by')
         for id_ in ids:
             if id_.geo_long:
-               return id_.geo_long
+                return id_.geo_long
     @property
     def geo_lat(self):
         ids = self.get_all('crm:P87_is_identified_by')
         for id_ in ids:
             if id_.geo_lat:
-               return id_.geo_lat
+                return id_.geo_lat
 
 register(Place, 'crm:E53_Place')
 
 class PlaceName(object):
     @property
     def label(self):
-        return self.rdf_value
+        return self.rdf_value or super(PlaceName, self).label
 register(PlaceName, 'crm:E48_Place_Name')
 
 class SpatialCoordinates(object):
