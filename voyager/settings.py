@@ -9,6 +9,8 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+DATABASES = {'default': {'ENGINE': 'django.db.backends.postgresql_psycopg2',
+                         'NAME': 'voyager'}}
 
 INSTALLED_APPS += (
     'voyager.core',
@@ -59,3 +61,5 @@ SERVED_DOMAINS = (
     'data.clarosnet.org',
 )
 
+STATIC_ROOT = relative_path(config.get('main:static_root'))
+STATIC_URL = '/static/'
