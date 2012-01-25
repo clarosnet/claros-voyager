@@ -83,7 +83,7 @@ function initPlaces() {
 
     var size = new OpenLayers.Size(13,22);
     var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-    var icon = new OpenLayers.Icon('marker.png',size,offset);
+    var icon = new OpenLayers.Icon('/site-media/marker.png',size,offset);
     
     
     for (var i in bindings) {
@@ -125,7 +125,7 @@ function showPlace(map, lonLat, binding) { return function(evt) {
       var binding = bindings[i];
       var li = $("<li/>").css('clear', 'left');
       if (binding.image)
-    	li.append($('<div/>').css('height', '50px').css('width', '50px').css('align', 'center').css('float', 'left')
+        li.append($('<div/>').css('height', '50px').css('width', '50px').css('text-align', 'center').css('float', 'left')
                              .append($('<a/>').attr('href', descURL + encodeURI(binding.thing.value))
                                               .append($('<img/>').attr('src', thumbnailURL + encodeURI(binding.image.value)))));
       li.append($('<div/>').addClass('placeDetailObjectLabel')
