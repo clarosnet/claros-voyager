@@ -2,7 +2,7 @@
 
 {% block title %}{{ type.rdfs_label|capfirst }}{% endblock %}
 
-{% block body %}
+{% block content %}
   <h1>{{ type.rdfs_label|capfirst }}</h2>
   <p class="text-content" style="text-align:center">
 {% for type in types %}{% if type.rdfs_label %}

@@ -23,6 +23,7 @@
     {% block extra_head %}{% endblock %}
   </head>
 
+{% block body %}
   <body class="index">
     <div id="all">
       <div id="header">
@@ -43,7 +44,7 @@
       </div>
 
       <div id="content">
-{% block body %}
+{% block content %}
         <h1>Home</h1>
 {% endblock %}
 
@@ -72,4 +73,5 @@
       </p>
     </div>
   </body>
+{% endblock %}
 </html>
