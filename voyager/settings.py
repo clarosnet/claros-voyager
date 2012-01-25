@@ -15,6 +15,7 @@ DATABASES = {'default': {'ENGINE': 'django.db.backends.postgresql_psycopg2',
 INSTALLED_APPS += (
     'voyager.core',
     'voyager.places',
+    'voyager.search',
     'django_hosts',
 )
 

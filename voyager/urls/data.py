@@ -18,6 +18,8 @@ urlpatterns = patterns('',
     url(r'^doc.+$', desc_views.DocView.as_view(), name='doc'),
     url(r'^doc/$', desc_views.DocView.as_view(), name='doc-generic'),
     url(r'^desc/$', desc_views.DescView.as_view(), name='desc'),
+    
+    url(r'^search/$', include('voyager.search.urls', 'search')),
 
     url(r'^objects/$', core_views.ObjectCategoryView.as_view(), name='claros-objects'),
     url(r'^objects/(?P<ptype>[a-z-]+)/$', core_views.ObjectView.as_view(), name='claros-objects-detail'),

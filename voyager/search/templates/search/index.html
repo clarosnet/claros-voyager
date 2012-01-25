@@ -1,0 +1,32 @@
+{% extends "search/base.html" %}
+
+{% block title %}Search{% if query %}: {{ query }}{% endif %}{% endblock %}
+
+{% block content %}
+  <h1>Search{% if query %}: {{ query }}{% endif %}</h1>
+   <div class="text-content">
+  <form method="get" action=".">
+    <p>
+      {{ form.query.label_tag }}
+      {{ form.query }}
+      <input type="submit" value="Search"/>
+    </p>
+  </form>
+  
+  {% if query and not results %}
+  <p>Your search returned no results</p>
+  {% endif %}
+  {% if query and results %}
+  <ol style="list-style:none; padding-left:0;">{% for result in results %}{% if result.thing and result.label %}
+    <li style="margin:5px"><a href="{% url doc-generic %}?uri={{ result.thing }}" style="vertical-align:middle;">
+      <div style="width:100px; display:inline-block; text-align:center; vertical-align:middle">
+      {% if result.depiction %}
+        <img src="{% url resized-image %}?url={{ result.depiction }}&amp;width=100&amp;height=100" alt=""/>
+      {% endif %}
+      </div>
+      {{ result.label }}
+    </a></li>
+  {% endif %}{% endfor %}</ol>
+  {% endif %}
+  </div>
+{% endblock %}
