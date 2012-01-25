@@ -1,19 +1,16 @@
-import random, rdflib, datetime
+import random
+import rdflib
 from collections import defaultdict
-
-import feedparser, pytz
 
 from django.http import Http404, HttpResponsePermanentRedirect
 from django.core.urlresolvers import reverse
-from django.conf import settings
 from django_conneg.views import HTMLView
 
-from humfrey.utils.views import CachedView, EndpointView
 from humfrey.results.views.standard import RDFView, ResultSetView
 from humfrey.utils.resource import Resource
 from humfrey.utils.namespaces import NS
 
-class ObjectCategoryView(CachedView, HTMLView, RDFView):
+class ObjectCategoryView(HTMLView, RDFView):
     _query = """
       DESCRIBE ?type WHERE {
         ?type crm:P127_has_broader_term <http://id.clarosnet.org/type/object>
@@ -40,7 +37,7 @@ class ObjectCategoryView(CachedView, HTMLView, RDFView):
         }
         return self.render(request, context, 'claros/objects-index')
 
-class ObjectView(CachedView, HTMLView, RDFView):
+class ObjectView(HTMLView, RDFView):
     _query = """
       CONSTRUCT {
         ?obj rdfs:label ?label .
@@ -79,7 +76,7 @@ class ObjectView(CachedView, HTMLView, RDFView):
 
         return self.render(request, context, 'claros/objects')
 
-class PeopleView(CachedView, HTMLView, ResultSetView):
+class PeopleView(HTMLView, ResultSetView):
     _query = """
       SELECT ?person ?appellation ?birth_period_label ?birth_place ?birth_place_label WHERE {
         ?person a crm:E21_Person .
