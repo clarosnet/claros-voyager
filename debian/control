@@ -1,0 +1,22 @@
+Source: claros-voyager
+Section: python
+Priority: extra
+Maintainer: Alexander Dutton <alexander.dutton@oucs.ox.ac.uk>
+Build-Depends: debhelper (>= 7.0.50~),
+               python-all,
+               python-support
+#               python-django-humfrey
+Standards-Version: 3.8.4
+X-Python-Version: >= 2.6
+Homepage: https://github.com/clarosnet/claros-voyager
+Vcs-Git: git://github.com/clarosnet/claros-voyager.git
+
+Package: claros-voyager
+Section: python
+Architecture: all
+Depends: ${misc:Depends},
+         ${python:Depends},
+         python-django-humfrey,
+         python-feedparser
+Description: Additional code for CLAROS's data service
+
