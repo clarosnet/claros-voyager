@@ -10,16 +10,16 @@
     <link rel="stylesheet" type="text/css" href="{{ EXPLORER_STYLE }}full.css" media="screen and (min-device-width: 320px)"/>
     {% endwith %}
 
-    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}base.css"/>
-    <link rel="icon" type="image/x-icon" href="{{ MEDIA_URL }}favicon.ico">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}base.css"/>
+    <link rel="icon" type="image/x-icon" href="{{ STATIC_URL }}favicon.ico">
 
-    <!--<link rel="stylesheet" href="{{ MEDIA_URL }}main.css" type="text/css"/>-->
+    <!--<link rel="stylesheet" href="{{ STATIC_URL }}main.css" type="text/css"/>-->
     {% if no_index %}<meta name="robots" content="noindex"/>{% endif %}
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
     <script type="application/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
     <script type="application/javascript" src="http://data.clarosnet.org/openlayers-media/OpenLayers.js"></script>
-    <script type="application/javascript" src="{{ MEDIA_URL }}base.js"></script>
+    <script type="application/javascript" src="{{ STATIC_URL }}base.js"></script>
     {% block extra_head %}{% endblock %}
   </head>
 
