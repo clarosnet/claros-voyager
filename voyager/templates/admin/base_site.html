@@ -1,0 +1,31 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block title %}{{ title }} | {% trans 'Django site admin' %}{% endblock %}
+
+{% block extrahead %}{{ block.super }}
+<style type="text/css">
+  ul.mainnav {
+    list-style: none;
+    padding-left: 1em;
+  }
+  
+  ul.mainnav li {
+    display: inline;
+    margin-right:2em;
+  }
+</style>
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">CLAROS Administration</h1>
+{% endblock %}
+
+{% block nav-global %}{% if user.is_authenticated %}
+<ul class="mainnav">
+  <li><a href="{% url index %}">home</a></li>
+  <li><a href="{% url update:index %}">dataset updates</a></li>
+  <li><a href="{% url sparql-stores:index %}">stores</a></li>{% if user.is_staff %}
+  <li><a href="{% url admin:index %}">admin</a></li>{% endif %}
+</ul>
+{% endif %}{% endblock %}
