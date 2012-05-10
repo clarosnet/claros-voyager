@@ -1,5 +1,6 @@
 from django.conf.urls.defaults import patterns, include, url
 from django.conf import settings
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 from humfrey.desc import views as desc_views
 from humfrey.images import views as images_views
@@ -29,7 +30,7 @@ urlpatterns = patterns('',
 
     url(r'^places/', include('voyager.places.urls', 'places')),
 
-    url(r'^sparql/', include('humfrey.sparql.urls', 'sparql')),
+    url(r'^sparql/', include('humfrey.sparql.urls.simple', 'sparql')),
 
     url(r'^forbidden/$', misc_views.SimpleView.as_view(context={'status_code': 403},
                                                     template_name='forbidden'), name='forbidden'),
@@ -37,7 +38,7 @@ urlpatterns = patterns('',
     url(r'^pingback/', include('humfrey.pingback.urls.public', 'pingback')),
 
     url(r'^external-image/$', images_views.ResizedImageView.as_view(), name='resized-image'),
-)
+) + staticfiles_urlpatterns()
 
 handler404 = misc_views.SimpleView.as_view(context={'status_code': 404}, template_name='404')
 handler500 = misc_views.SimpleView.as_view(context={'status_code': 500}, template_name='500')
