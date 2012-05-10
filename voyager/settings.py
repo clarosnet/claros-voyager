@@ -17,8 +17,14 @@ INSTALLED_APPS += (
     'voyager.core',
     'voyager.places',
     'voyager.search',
+    'humfrey.sparql',
     'django_hosts',
     'django.contrib.admin',
+)
+
+AUTHENTICATION_BACKENDS = (
+    'object_permissions.backend.ObjectPermBackend',
+    'django.contrib.auth.backends.ModelBackend',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -84,3 +90,5 @@ STATICFILES_DIRS = (
 )
 
 LOGIN_URL = '/login/'
+
+ANONYMOUS_USER_ID = 0

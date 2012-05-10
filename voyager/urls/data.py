@@ -31,6 +31,7 @@ urlpatterns = patterns('',
     url(r'^places/', include('voyager.places.urls', 'places')),
 
     url(r'^sparql/', include('humfrey.sparql.urls.simple', 'sparql')),
+    url(r'^graph/(?P<path>.*)$', sparql_views.GraphStoreView.as_view(), name='graph-store'),
 
     url(r'^forbidden/$', misc_views.SimpleView.as_view(context={'status_code': 403},
                                                     template_name='forbidden'), name='forbidden'),
