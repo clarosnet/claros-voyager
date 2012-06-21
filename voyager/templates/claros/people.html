@@ -31,7 +31,7 @@
 {% for person in people %}
       <tr class="row-{% cycle odd,even %}">
         <td>
-          <a href="{{ person.uri.doc_url }}">
+          <a href="{{ person.uri|doc_url }}">
           {% for appellation in person.appellations %}
             {{ appellation }}
             {% if not forloop.last %}<br/>{% endif %}
@@ -39,11 +39,11 @@
           </a>
         </td>
         <td>
-          {{ person.birth_period_label }}
+          {{ person.birth_period_label|default:"" }}
         </td>
         <td>
         {% if person.birth_place_label %}
-          <a href="{{ person.birth_place.doc_url }}">{{ person.birth_place_label }}</a>
+          <a href="{{ person.birth_place|doc_url }}">{{ person.birth_place_label }}</a>
         {% endif %}
 
         </td>

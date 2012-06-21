@@ -3,19 +3,57 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-GB">
   <head>
     <title>{% block title %}Data from the CLAROS Project{% endblock %} | data.clarosnet.org | CLAROS Data</title>
-    
+    <meta charset="UTF-8"/>
+
+    {% comment %}
     {% with "http://explore.clarosnet.org/XDB/ASP/clarosHome/styles/" as EXPLORER_STYLE %}
     <link rel="stylesheet" type="text/css" href="{{ EXPLORER_STYLE }}basic.css" media="all"/>
     <link rel="stylesheet" type="text/css" href="{{ EXPLORER_STYLE }}print.css" media="print"/>
     <link rel="stylesheet" type="text/css" href="{{ EXPLORER_STYLE }}full.css" media="screen and (min-device-width: 320px)"/>
     {% endwith %}
-
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}base.css"/>
-    <link rel="icon" type="image/x-icon" href="{{ STATIC_URL }}favicon.ico">
+    {% endcomment %}
+    
+    <!-- print stylesheet for print stlying -->
+    <link media="print" href="{{ STATIC_URL }}site/css/print.css" rel="stylesheet" type="text/css" />
 
-    <!--<link rel="stylesheet" href="{{ STATIC_URL }}main.css" type="text/css"/>-->
+    <!-- general reset styles for getting rid of annoying browser defaults -->
+    <link media="all" href="{{ STATIC_URL }}site/css/reset.css" rel="stylesheet" type="text/css" />
+
+    <!-- basic styles suitable for all devices *DO not put layout stuff here * -->
+    <link media="all" href="{{ STATIC_URL }}site/css/basic.css" rel="stylesheet" type="text/css" />
+
+    <!-- styles for mobile devices-->
+    <link href="{{ STATIC_URL }}site/css/tiny.css" rel="stylesheet" type="text/css" media="screen and (max-width: 639px)" />
+
+    <!-- styles for smallscreen devices-->
+    <link href="{{ STATIC_URL }}site/css/small.css" rel="stylesheet" type="text/css" media="(min-width: 640px)" />
+
+    <!-- styles for small-to-medium screen desktop  devices-->
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}site/css/medium.css" media="(min-width: 999px) and (max-width: 1600px)" />
+
+    <!-- styles for large screen desktop devices-->
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}site/css/large.css" media="screen and (min-width: 1601px)" />
+
+    <!-- pull in tiny responsive sheets for mobile IE  -->
+    <!--[if (lt IE 9)&(!IEMobile)]>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}site/css/tiny.css" media="screen"/>
+    <![endif]-->
+
+    <!-- pull in small and medium responsive sheets for desktop IE that doesn't understand media queries (i.e. before IE 9) -->
+    <!--[if (lt IE 9)&(!IEMobile)]>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}site/css/small.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}site/css/medium.css" media="screen"/>
+    <![endif]-->
+
+    <!-- styles for Internet explorer  ie-specific styles -->
+    <!--[if (gt IE 4)&(lt IE 9)]>
+    <link media="screen" href="{{ STATIC_URL }}site/css/ie.css" rel="stylesheet" type="text/css"/>
+    <![endif]-->
+
+    <link rel="icon" type="image/x-icon" href="{{ STATIC_URL }}favicon.ico"/>
+
     {% if no_index %}<meta name="robots" content="noindex"/>{% endif %}
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
     <script type="application/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
     <script type="application/javascript" src="http://data.clarosnet.org/openlayers-media/OpenLayers.js"></script>
@@ -24,13 +62,13 @@
   </head>
 
 {% block body %}
-  <body class="index">
-    <div id="all">
-      <div id="header">
-        <a id="logoLink" href="http://www.clarosnet.org/">
-          <span id="site-title">www.clarosnet.org: The world of art on the semantic web</span>
-        </a>
-      <div class="mainnav">
+  <body class="{% block body_class %}{% endblock %}">
+    <div id="page">
+      <header class="site-header">
+        <a href="http://www.clarosnet.org/"><span class="header-claros">CLAROS</span> <span class="header-data">data</span></a>
+        <span class="header-strapline">The world of art on the semantic web</span>
+      </header>
+      <nav>
         <ul>
 {% block nav %}
           <li><a href="{% host_url index on data %}">Home</a></li>
@@ -38,19 +76,46 @@
           <li><a href="{% host_url claros-people on data %}">People</a></li>
           <li><a href="{% host_url places:index on data %}">Places</a></li> 
           <li><a href="{% host_url sparql:endpoint on data %}">SPARQL</a></li>
+          <li><a href="{% host_url search on data %}">Search</a></li>
 {% endblock %}
         </ul>
-      </div>
-      </div>
+      </nav>
 
-      <div id="content">
-{% block content %}
-        <h1>Home</h1>
+      <div class="main">
+        <article class="content">
+          <div class="wrapper{% block with_left_sidebar %}{% endblock %}{% block with_right_sidebar %}{% endblock %}">
+          {% block content %}
+            <h1>Home</h1>
+          {% endblock %}
+          </div>
+          
+        </article>
+
+
+        {% block right_sidebar %}{% endblock %}
+        {% block left_sidebar %}{% endblock %}
+      <div style="clear:both"></div>
+      </div>
+    
+      <!-- close .main -->
+
+      <footer class="site">
+        <div class="copyright">
+          <p>
+            Hosted by the University of Oxford's e-research centre, <a href="http://www.oerc.ox.ac.uk/">OeRC</a><br/>
+            This interface was built using <a href="http://openjena.org/wiki/Fuseki">Fuseki</a>,
+            <a href="https://github.com/oucs/humfrey">humfrey</a>, and
+            <a href="https://github.com/clarosnet/claros-voyager">a tweaked frontend</a>, all
+            <a href="http://www.opensource.org/">open-source software</a>.
+          </p>
+        </div>
+      </footer>
+    </div>
+  </body>
 {% endblock %}
+</html>
 
-
-      </div>
-
+{% comment %}
 {% if queries %}
       <div id="query">
         <div class="text-content" style="padding-top:0">
@@ -61,17 +126,4 @@
         </div>
       </div>
 {% endif %}
-
-    </div>
-    <div id="footer">
-      <p>
-        Hosted by the University of Oxford's e-research centre, <a href="http://www.oerc.ox.ac.uk/">OeRC</a><br/>
-        This interface was built using <a href="http://openjena.org/wiki/Fuseki">Fuseki</a>,
-        <a href="https://github.com/oucs/humfrey">humfrey</a>, and
-        <a href="https://github.com/clarosnet/claros-voyager">a tweaked frontend</a>, all
-        <a href="http://www.opensource.org/">open-source software</a>.
-      </p>
-    </div>
-  </body>
-{% endblock %}
-</html>
+{% endcomment %}
