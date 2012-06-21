@@ -2,12 +2,12 @@ from rdflib import URIRef
 
 from django.utils.safestring import mark_safe, SafeData
 
-from humfrey.utils.namespaces import register as register_namespace
-from humfrey.utils.resource import register, Image
+from humfrey.linkeddata.resource import Image, ResourceRegistry, base_resource_registry
 
-register(Image, 'crm:E38_Image')
 
 class Place(object):
+    types = ('crm:E53_Place',)
+
     @classmethod
     def _describe_patterns(cls):
         return [
@@ -31,15 +31,16 @@ class Place(object):
             if id_.geo_lat:
                 return id_.geo_lat
 
-register(Place, 'crm:E53_Place')
-
 class PlaceName(object):
+    types = ('crm:E48_Place_Name',)
+
     @property
     def label(self):
         return self.rdf_value or super(PlaceName, self).label
-register(PlaceName, 'crm:E48_Place_Name')
 
 class SpatialCoordinates(object):
+    types = ('crm:E47_Place_Spatial_Coordinates',)
+
     @property
     def label(self):
         return "%s, %s" % (self.claros_has_geoObject.geo_lat, self.claros_has_geoObject.geo_long)
@@ -50,21 +51,23 @@ class SpatialCoordinates(object):
     def geo_long(self):
         return self.get('claros:has_geoObject').geo_long
 
-register(SpatialCoordinates, 'crm:E47_Place_Spatial_Coordinates')
-
 class Point(object):
+    types = ('geo:Point',)
+
     @property
     def label(self):
         return "POINT(%s, %s)" % (self.geo_lat, self.geo_long)
-register(Point, 'geo:Point')
 
 class Birth(object):
+    types = ('crm:E67_Birth',)
+
     def render(self):
         ts = self.get('crm:P4_has_time-span')
         return mark_safe('%s, at %s' % (ts.rdfs_label, self.crm_P7_took_place_at.render()))
-register(Birth, 'crm:E67_Birth')
 
 class ManMadeObject(object):
+    types = ('crm:E22_Man-Made_Object',)
+
     @property
     def geo_long(self):
         find_coordinates = self.get('claros:coordinates-find')
@@ -81,22 +84,19 @@ class ManMadeObject(object):
             '%(uri)s crm:P2_has_type %(object_type)s',
             '%(uri)s crm:P138i_has_representation %(object_representation)s',
         ]
-register(ManMadeObject, 'crm:E22_Man-Made_Object')
 
 class Activity(object):
+    types = ('crm:E7_Activity',)
+
     def render(self):
         try:
             return mark_safe(u"Found at %s" % self.crm_P7_took_place_at.render())
         except AttributeError:
             return "Undescribed find event"
 
-#    @property
-#    def label(self):
-#        return 'e'
-register(Activity, 'crm:E7_Activity')
-
-
 class Person(object):
+    types = ('crm:E21_Person',)
+
     @classmethod
     def _describe_patterns(cls):
         return [
@@ -104,11 +104,16 @@ class Person(object):
             '%(uri)s crm:P98i_was_born %(n1)s . %(n1)s crm:P7_took_place_at %(n2)s ; crm:P4_has_time-span %(n3)s',
             '%(uri)s crm:P131_is_identified_by %(n1)s',
         ]
-register(Person, 'crm:E21_Person')
 
 class ActorAppellation(object):
+    types = ('crm:E82_Actor_Appellation',)
     @property
     def label(self):
         value = self.rdf_value
         return '%s (%s)' % (unicode(value), value.language)
-register(ActorAppellation, 'crm:E82_Actor_Appellation')
+
+resource_registry = base_resource_registry + ResourceRegistry(
+    Place, PlaceName, SpatialCoordinates, Point, Birth, ManMadeObject,
+    Activity, Person, ActorAppellation,
+    (Image, 'crm:E38_Image'),
+)
