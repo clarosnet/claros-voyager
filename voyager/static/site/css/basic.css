@@ -33,3 +33,20 @@ table td, table th {
 table .row-odd {
 	background-color: #eee;
 }
+
+
+ul.placeDetailObjects {
+    list-style: none;
+    padding-left: 0;
+}
+
+ul.placeDetailObjects li {
+    background-repeat: no-repeat;
+    margin: 2px;
+}
+
+ul.placeDetailObjects a {
+    padding-left: 55px;
+    min-height: 50px;
+    display: block;
+}
