@@ -4,7 +4,7 @@
 
 {% block with_right_sidebar %} with-right-sidebar{% endblock %}
 
-{% block content %}
+{% block preamble %}
   <h1>
     {{ subject.label }}
     <a title="View at partner's website" style="text-decoration: none; position: relative; top: 2px;" href="{{ subject.uri }}">
@@ -12,6 +12,9 @@
     </a>
   </h1>
   <p style="text-align:center; font-family:monospace; font-size:8pt;">{{ subject.uri }}</p>
+{% endblock %}
+
+{% block content %}
 
   {% block description %}
     {% if subject.is_image %}

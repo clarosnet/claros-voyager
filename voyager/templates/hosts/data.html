@@ -82,19 +82,20 @@
       </nav>
 
       <div class="main">
+        <div class="preamble">{% block preamble %}{% endblock %}</div>
         <article class="content">
+        <div class="after-preamble">
           <div class="wrapper{% block with_left_sidebar %}{% endblock %}{% block with_right_sidebar %}{% endblock %}">
           {% block content %}
             <h1>Home</h1>
           {% endblock %}
+
           </div>
+        </div>
           
         </article>
-
-
-        {% block right_sidebar %}{% endblock %}
         {% block left_sidebar %}{% endblock %}
-
+        {% block right_sidebar %}{% endblock %}
       <div style="clear:both"></div>
       {% if queries %}
       <div id="queries">
