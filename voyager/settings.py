@@ -13,6 +13,11 @@ MANAGERS = ADMINS
 DATABASES = {'default': {'ENGINE': 'django.db.backends.postgresql_psycopg2',
                          'NAME': 'voyager'}}
 
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'object_permissions.backend.ObjectPermBackend',
+)
+
 INSTALLED_APPS += (
     'djcelery',
     'humfrey.elasticsearch',
@@ -102,6 +107,7 @@ CELERY_IMPORTS = (
 CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
 CELERYD_LOG_COLOR = False
 
+ANONMYMOUS_USER_ID = 0
 
 ELASTICSEARCH_SERVER = {'host': 'localhost',
                         'port': 9200}
