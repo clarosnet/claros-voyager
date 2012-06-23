@@ -183,4 +183,16 @@ ul.object-images div.image-caption {
 	padding: 2px;
 }
 
-ul.object-images img
+
+div#queries {
+    margin-top: 1em;
+}
+
+div#queries h2 {
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+div#queries li {
+    margin-bottom: 1em;
+}
