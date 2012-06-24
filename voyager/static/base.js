@@ -1,5 +1,6 @@
 var sparqlEndpoint = "http://data.clarosnet.org/sparql/";
 var descURL = "http://data.clarosnet.org/desc/?uri=";
+var thumbnailURL = "/thumbnail/";
 
 function query(query, func) {
 	$.post(sparqlEndpoint, {
@@ -10,28 +11,18 @@ function query(query, func) {
 }
 
 function voyager_simple_map(id, longitude, latitude) {
-	map = new OpenLayers.Map(id, { controls: [] });
-    map.addLayer(new OpenLayers.Layer.OSM());
-    map.addControl(new OpenLayers.Control.Navigation());
-    map.addControl(new OpenLayers.Control.KeyboardDefaults());
-    map.addControl(new OpenLayers.Control.Attribution("D"));
- 
-    var lonLat = new OpenLayers.LonLat(longitude, latitude)
-          .transform(
-            new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
-            map.getProjectionObject() // to Spherical Mercator Projection
-          );
- 
-    var zoom=4;
- 
-    var markers = new OpenLayers.Layer.Markers( "Markers" );
-    map.addLayer(markers);
- 
-    markers.addMarker(new OpenLayers.Marker(lonLat));
- 
-    map.setCenter (lonLat, zoom);
-
-}
+	var latLng = new google.maps.LatLng(latitude, longitude);
+	var options = {
+		center: latLng,
+		zoom: 8,
+		mapTypeId: google.maps.MapTypeId.TERRAIN
+	};
+	var map = new google.maps.Map(document.getElementById(id), options);
+	var marker = new google.maps.Marker({
+		position: latLng,
+		map: map,
+	});
+};
 
 $(function () {
 	if ($('#query').height() > 150) 
@@ -67,42 +58,36 @@ var placeDetailQuery = ["SELECT ?thing (SAMPLE(?image_) as ?image) (SAMPLE(?labe
 
 
 function initPlaces() {
-  query(placesQuery, function(vars, bindings) {
-	map = new OpenLayers.Map("places-map", {});
-    map.addLayer(new OpenLayers.Layer.OSM());
+	var options = {
+		center: new google.maps.LatLng(0, 0),
+		zoom: 2,
+		mapTypeId: google.maps.MapTypeId.TERRAIN
+	};
+	var map = new google.maps.Map(document.getElementById("places-map"), options);
+
+	query(placesQuery, function(vars, bindings) {
 	
-    var lonLat = new OpenLayers.LonLat(0,0)
-    .transform(
-      new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
-      map.getProjectionObject() // to Spherical Mercator Projection
-    );
+		var size = new google.maps.Size(12, 15);
+		var origin = new google.maps.Point(6, 15);
+		var icon = new google.maps.MarkerImage('http://www.beazley.ox.ac.uk/XDB/images/icoClarosMarker.png', size, origin);
 
-    var markers = new OpenLayers.Layer.Markers( "Markers" );
-    map.addLayer(markers);
-    
-
-    var size = new OpenLayers.Size(13,22);
-    var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-    var icon = new OpenLayers.Icon('/site-media/marker.png',size,offset);
-    
-    
-    for (var i in bindings) {
-      var binding = bindings[i];
-      lonLat = new OpenLayers.LonLat(binding.long.value, binding.lat.value).transform(
-                 new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
-                 map.getProjectionObject() // to Spherical Mercator Projection
-               );
-      marker = new OpenLayers.Marker(lonLat, icon.clone());
-      marker.events.register('mousedown', marker, showPlace(map, lonLat, binding));
-      markers.addMarker(marker);
-    }
-    
-	map.setCenter(lonLat, 2);
-  })
+		for (var i in bindings) {
+			var binding = bindings[i];
+			var latLng = new google.maps.LatLng(binding.lat.value, binding.long.value);
+			var marker = new google.maps.Marker({
+				//icon: icon,
+				position: latLng,
+				map: map,
+				title: binding.label.value,
+				icon: 'http://www.beazley.ox.ac.uk/XDB/images/icoClarosMarker.png',
+			});
+			google.maps.event.addListener(marker, 'click', showPlace(map, latLng, binding));
+		}
+	})
 }
 
 function showPlace(map, lonLat, binding) { return function(evt) {
-  var thumbnailURL = "/external-image/?width=50&height=50&url=";
+  var smallThumbnailURL = thumbnailURL + "?width=50&height=50&url=";
 	
   var div = $('#places-map');
   var ul = $('<ul/>').addClass('placeDetailObjects');
@@ -123,13 +108,10 @@ function showPlace(map, lonLat, binding) { return function(evt) {
   query(placeDetailQuery.replace("PLACE", binding.place.value), function(vars, bindings) {
     for (var i in bindings) {
       var binding = bindings[i];
-      var li = $("<li/>").css('clear', 'left');
+      var li = $("<li/>");
       if (binding.image)
-        li.append($('<div/>').css('height', '50px').css('width', '50px').css('text-align', 'center').css('float', 'left')
-                             .append($('<a/>').attr('href', descURL + encodeURI(binding.thing.value))
-                                              .append($('<img/>').attr('src', thumbnailURL + encodeURI(binding.image.value)))));
-      li.append($('<div/>').addClass('placeDetailObjectLabel')
-    		               .append($('<a/>').attr('href', descURL + encodeURI(binding.thing.value)).text(binding.label.value)));
+        li.css('background-image', "url('" + smallThumbnailURL + encodeURIComponent(binding.image.value) + "')");
+      li.append($('<a/>').attr('href', descURL + encodeURI(binding.thing.value)).text(binding.label.value));
       ul.append(li);
     }
   });

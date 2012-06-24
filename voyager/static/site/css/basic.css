@@ -1,0 +1,52 @@
+body {
+	color: #333333;
+	margin: 1em;
+	background: #BBCEDD;
+}
+
+ul, ol {
+	padding-left: 3em;
+}
+
+ul, ol, p {
+	margin: 0.3em 0;
+	line-height: 1.1em;
+}
+
+table {
+	border: 1px solid #ddd;
+	width: 100%;
+	margin: 1em 0;
+	font-size: 11px;
+}
+
+table thead {
+	background-color: #586d80;
+	color: #E1EAF1;
+	border-bottom: 1px solid #ddd;
+}
+
+table td, table th {
+	padding: 2px;
+}
+
+table .row-odd {
+	background-color: #eee;
+}
+
+
+ul.placeDetailObjects {
+    list-style: none;
+    padding-left: 0;
+}
+
+ul.placeDetailObjects li {
+    background-repeat: no-repeat;
+    margin: 2px;
+}
+
+ul.placeDetailObjects a {
+    padding-left: 55px;
+    min-height: 50px;
+    display: block;
+}

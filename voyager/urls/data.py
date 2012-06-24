@@ -3,8 +3,8 @@ from django.conf import settings
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 from humfrey.desc import views as desc_views
-from humfrey.images import views as images_views
-from humfrey.sparql import views as sparql_views
+from humfrey.elasticsearch import views as elasticsearch_views
+from humfrey.thumbnail import views as thumbnail_views
 from humfrey.misc import views as misc_views
 
 from voyager.core import views as core_views
@@ -20,7 +20,7 @@ urlpatterns = patterns('',
     url(r'^doc/$', desc_views.DocView.as_view(), name='doc-generic'),
     url(r'^desc/$', desc_views.DescView.as_view(), name='desc'),
     
-    url(r'^search/$', include('voyager.search.urls', 'search')),
+    url(r'^search/$', elasticsearch_views.SearchView.as_view(), name='search'),
 
     url(r'^objects/$', core_views.ObjectCategoryView.as_view(), name='claros-objects'),
     url(r'^objects/(?P<ptype>[a-z\-_]+)/$', core_views.ObjectView.as_view(), name='claros-objects-detail'),
@@ -34,11 +34,11 @@ urlpatterns = patterns('',
     url(r'^graph/(?P<path>.*)$', sparql_views.GraphStoreView.as_view(), name='graph-store'),
 
     url(r'^forbidden/$', misc_views.SimpleView.as_view(context={'status_code': 403},
-                                                    template_name='forbidden'), name='forbidden'),
+                                                       template_name='forbidden'), name='forbidden'),
 
     url(r'^pingback/', include('humfrey.pingback.urls.public', 'pingback')),
 
-    url(r'^external-image/$', images_views.ResizedImageView.as_view(), name='resized-image'),
+    url(r'^thumbnail/$', thumbnail_views.ThumbnailView.as_view(), name='thumbnail'),
 ) + staticfiles_urlpatterns()
 
 handler404 = misc_views.SimpleView.as_view(context={'status_code': 404}, template_name='404')

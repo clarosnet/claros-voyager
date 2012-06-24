@@ -1,4 +1,4 @@
-{% extends "base.html" %}{% load humfrey_desc %}
+{% extends "base.html" %}{% load humfrey_desc %}{% load humfrey_thumbnail %}
 
 {% block title %}{{ type.rdfs_label|capfirst }}{% endblock %}
 
@@ -16,7 +16,7 @@
     <li{% if forloop.counter0|divisibleby:5 and forloop.counter0 %} class="image-break"{% endif %}>
       <a href="{{ subject.doc_url }}">
         <div class="image-caption">{{ subject.label|truncatewords:14 }}</div>
-        <img class="with-caption" src="{% url resized-image %}?url={{ subject.depictions.0|urlencode }}&amp;width=180"/>
+        <img class="with-caption" src="{% thumbnail subject.depictions.0 width=200 %}" width="200"/>
       </a>
       </li>
   {% endfor %}

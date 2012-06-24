@@ -7,10 +7,12 @@ from django.core.urlresolvers import reverse
 from django_conneg.views import HTMLView
 
 from humfrey.results.views.standard import RDFView, ResultSetView
-from humfrey.utils.resource import Resource
+from humfrey.linkeddata.resource import Resource
+from humfrey.linkeddata.views import MappingView
+from humfrey.sparql.views import StoreView
 from humfrey.utils.namespaces import NS
 
-class ObjectCategoryView(HTMLView, RDFView):
+class ObjectCategoryView(HTMLView, RDFView, StoreView, MappingView):
     _query = """
       DESCRIBE ?type WHERE {
         ?type crm:P127_has_broader_term <http://id.clarosnet.org/type/object>
@@ -37,7 +39,7 @@ class ObjectCategoryView(HTMLView, RDFView):
         }
         return self.render(request, context, 'claros/objects-index')
 
-class ObjectView(HTMLView, RDFView):
+class ObjectView(HTMLView, RDFView, StoreView, MappingView):
     _query = """
       CONSTRUCT {
         ?obj rdfs:label ?label .
@@ -76,7 +78,7 @@ class ObjectView(HTMLView, RDFView):
 
         return self.render(request, context, 'claros/objects')
 
-class PeopleView(HTMLView, ResultSetView):
+class PeopleView(HTMLView, ResultSetView, StoreView, MappingView):
     _query = """
       SELECT ?person ?appellation ?birth_period_label ?birth_place ?birth_place_label WHERE {
         ?person a crm:E21_Person .
@@ -105,7 +107,7 @@ class PeopleView(HTMLView, ResultSetView):
         results = self.endpoint.query(self._query % ((page-1)*1000))
         people = defaultdict(lambda:defaultdict(set))
         for result in results:
-            person = people[result.person.uri]
+            person = people[result.person]
             person['uri'] = result.person
             person['appellations'].add(result.appellation)
             person['birth_period_label'] = result.birth_period_label

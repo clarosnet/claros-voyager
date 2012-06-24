@@ -13,7 +13,14 @@ MANAGERS = ADMINS
 DATABASES = {'default': {'ENGINE': 'django.db.backends.postgresql_psycopg2',
                          'NAME': 'voyager'}}
 
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'object_permissions.backend.ObjectPermBackend',
+)
+
 INSTALLED_APPS += (
+    'djcelery',
+    'humfrey.elasticsearch',
     'voyager.core',
     'voyager.places',
     'voyager.search',
@@ -92,3 +99,25 @@ STATICFILES_DIRS = (
 LOGIN_URL = '/login/'
 
 ANONYMOUS_USER_ID = 0
+
+RESOURCE_REGISTRY = 'voyager.core.resource.resource_registry'
+
+BROKER_URL = "redis://localhost:6379/1"
+CELERY_RESULT_BACKEND = "redis"
+CELERY_REDIS_HOST = "localhost"
+CELERY_REDIS_PORT = 6379
+CELERY_REDIS_DB = 1
+CELERY_IMPORTS = (
+    'humfrey.archive.tasks',
+    'humfrey.ckan.tasks',
+    'humfrey.elasticsearch.tasks',
+    'humfrey.update.tasks',
+)
+CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
+CELERYD_LOG_COLOR = False
+
+ANONMYMOUS_USER_ID = 0
+
+ELASTICSEARCH_SERVER = {'host': 'localhost',
+                        'port': 9200}
+

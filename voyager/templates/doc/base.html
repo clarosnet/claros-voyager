@@ -1,15 +1,20 @@
-{% extends "base.html" %}{% load humfrey_desc %}
+{% extends "base.html" %}{% load humfrey_desc %}{% load humfrey_thumbnail %}
 
 {% block title %}{{ subject.label }}{% endblock %}
 
-{% block content %}
+{% block with_right_sidebar %} with-right-sidebar{% endblock %}
+
+{% block preamble %}
   <h1>
     {{ subject.label }}
     <a title="View at partner's website" style="text-decoration: none; position: relative; top: 2px;" href="{{ subject.uri }}">
-      <img style="border: 0pt none;" alt="" src="/site-media/follow.png">
+      <img style="border: 0pt none;" alt="" src="{{ STATIC_URL }}follow.png">
     </a>
   </h1>
   <p style="text-align:center; font-family:monospace; font-size:8pt;">{{ subject.uri }}</p>
+{% endblock %}
+
+{% block content %}
 
   {% block description %}
     {% if subject.is_image %}
@@ -26,7 +31,7 @@
   {% for depiction in subject.depictions %}
     <li{% if forloop.counter0|divisibleby:5 and forloop.counter0 %} class="image-break"{% endif %}>
       <a href="{{ depiction.doc_url }}">
-        <img src="{% url resized-image %}?url={{ depiction|urlencode }}&amp;width=180"/>
+        <img src="{% thumbnail depiction width=200 %}"/>
       </a>
       </li>
   {% endfor %}
@@ -34,9 +39,30 @@
   <div style="clear:both;"> </div>
   {% endif %}
 
-  <div class="sidebar">
+
+  <table class="description">
+    <tbody>
+  {% for property, objects in subject.properties %}
+      <tr class="row-{% cycle odd,even %}">
+        <th>{{ property|node }}</th>
+        <td>
+    {% for object in objects %}
+          {{ object|node }}
+          {% if not forloop.last %}<br/>{% endif %}
+    {% endfor %}
+        </td>
+      </tr>
+  {% endfor %}
+    </tbody>
+  </table>
+
+  <div style="clear:both; margin-top:20px">&nbsp;</div>
+{% endblock %}
+
+{% block right_sidebar %}
+  <aside class="right-sidebar">
     {% if subject.geo_lat and subject.geo_long %}
-    <div style="width:180px; height:180px" id="subject-map"/></div>
+    <div style="width:200px; height:200px" id="subject-map"/></div>
     <script type="application/javascript">
       $(function() { voyager_simple_map("subject-map", {{ subject.geo_long }}, {{ subject.geo_lat }}); });
     </script>
@@ -83,23 +109,5 @@
     <a href="{{ subject.uri }}">
       View more detail at partner's website
     </a></p>
-  </div>  
-
-  <table class="description" style="margin-left:10px">
-    <tbody>
-  {% for property, objects in subject.properties %}
-      <tr class="row-{% cycle odd,even %}">
-        <th>{{ property|node }}</th>
-        <td>
-    {% for object in objects %}
-          {{ object|node }}
-          {% if not forloop.last %}<br/>{% endif %}
-    {% endfor %}
-        </td>
-      </tr>
-  {% endfor %}
-    </tbody>
-  </table>
-
-  <div style="clear:both; margin-top:20px">&nbsp;</div>
-{% endblock %}
+  </aside>
+  {% endblock %}

@@ -11,7 +11,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^$', login_required(misc_views.SimpleView.as_view(template_name='manage')), name='index'),
     url(r'^update/', include('humfrey.update.urls', 'update')),
-    url(r'^stores/', include('humfrey.sparql.urls.stores', 'sparql-stores')),
+    url(r'^stores/', include('humfrey.sparql.urls.admin', 'sparql-admin')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^login/$', auth_views.login, name='login'),
     url(r'^logout/$', auth_views.logout, name='logout'),
