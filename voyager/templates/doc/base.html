@@ -4,6 +4,11 @@
 
 {% block with_right_sidebar %} with-right-sidebar{% endblock %}
 
+{% block extra_head %}{{ block.super }}{% if 0 and subject.pleiades_id %}
+<script type="text/javascript" src="http://pelagios.github.com/pelagios-widgets/lib/require.js"></script> 
+<script type="text/javascript" src="http://pelagios.github.com/pelagios-widgets/place.js"></script>
+{% endif %}{% endblock %}
+
 {% block preamble %}
   <h1>
     {{ subject.label }}
@@ -110,5 +115,9 @@
     <a href="{{ subject.uri }}">
       View more detail at partner's website
     </a></p>
+
+    {% if subject.pleiades_id %}
+    <div id="subject-pelagios" data-pleiades_id="{{ subject.pleiades_id }}" class="pelagios pelagios-place"></div>
+    {% endif %}
   </aside>
   {% endblock %}
