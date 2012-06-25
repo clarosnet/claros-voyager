@@ -25,7 +25,7 @@ urlpatterns = patterns('',
     url(r'^objects/$', core_views.ObjectCategoryView.as_view(), name='claros-objects'),
     url(r'^objects/(?P<ptype>[a-z\-_]+)/$', core_views.ObjectView.as_view(), name='claros-objects-detail'),
 
-    url(r'^people/$', core_views.PeopleView.as_view(), {}, 'claros-people'),
+    url(r'^people/$', core_views.PeopleView.as_view(), name='claros-people'),
     url(r'^people/(?P<page>[1-9]\d*)/$', core_views.PeopleView.as_view(), name='claros-people-page'),
 
     url(r'^places/', include('voyager.places.urls', 'places')),
