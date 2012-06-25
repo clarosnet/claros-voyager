@@ -1,3 +1,5 @@
+import re
+
 from rdflib import URIRef
 
 from django.utils.safestring import mark_safe, SafeData
@@ -30,6 +32,15 @@ class Place(object):
         for id_ in ids:
             if id_.geo_lat:
                 return id_.geo_lat
+
+    @property
+    def pleiades_id(self):
+        for place in self.get_all('skos:closeMatch'):
+            print "SM", place, place.uri, re.match(r'http://pleiades\.stoa\.org/places/(\d+)', place.uri)
+            match = re.match(r'http://pleiades\.stoa\.org/places/(\d+)', place.uri)
+            if match:
+                print "M", match.group(1)
+                return match.group(1)
 
 class PlaceName(object):
     types = ('crm:E48_Place_Name',)
