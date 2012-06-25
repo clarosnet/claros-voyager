@@ -23,7 +23,6 @@ INSTALLED_APPS += (
     'humfrey.elasticsearch',
     'voyager.core',
     'voyager.places',
-    'voyager.search',
     'humfrey.sparql',
     'django_hosts',
     'django.contrib.admin',

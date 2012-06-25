@@ -6,6 +6,8 @@ from humfrey.desc import views as desc_views
 from humfrey.elasticsearch import views as elasticsearch_views
 from humfrey.thumbnail import views as thumbnail_views
 from humfrey.misc import views as misc_views
+from humfrey.sparql.views import admin as sparql_admin_views
+from humfrey.sparql.views import core as sparql_core_views
 
 from voyager.core import views as core_views
 
@@ -19,8 +21,12 @@ urlpatterns = patterns('',
     url(r'^doc.+$', desc_views.DocView.as_view(), name='doc'),
     url(r'^doc/$', desc_views.DocView.as_view(), name='doc-generic'),
     url(r'^desc/$', desc_views.DescView.as_view(), name='desc'),
-    
+
     url(r'^search/$', elasticsearch_views.SearchView.as_view(), name='search'),
+    url(r'^elasticsearch/(?:(?P<index>[A-Z\-\d]+)/)?$',
+        sparql_admin_views.ElasticSearchPassThroughView.as_view(), #uri_lookup_url='/doc/',
+                                                                #sparql_endpoint_url='/sparql/'),
+        {'store': 'public'}, name='elasticsearch'),
 
     url(r'^objects/$', core_views.ObjectCategoryView.as_view(), name='claros-objects'),
     url(r'^objects/(?P<ptype>[a-z\-_]+)/$', core_views.ObjectView.as_view(), name='claros-objects-detail'),
@@ -32,7 +38,7 @@ urlpatterns = patterns('',
     url(r'^nearby/$', core_views.NearbyView.as_view(), name='nearby'),
 
     url(r'^sparql/', include('humfrey.sparql.urls.simple', 'sparql')),
-    url(r'^graph/(?P<path>.*)$', sparql_views.GraphStoreView.as_view(), name='graph-store'),
+    url(r'^graph/(?P<path>.*)$', sparql_core_views.GraphStoreView.as_view(), name='graph-store'),
 
     url(r'^forbidden/$', misc_views.SimpleView.as_view(context={'status_code': 403},
                                                        template_name='forbidden'), name='forbidden'),
