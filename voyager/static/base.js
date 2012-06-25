@@ -116,3 +116,47 @@ function showPlace(map, lonLat, binding) { return function(evt) {
     }
   });
 };}
+
+
+$(function() {
+	if (!$('body.nearby-objects').size()) return;
+
+	var map = $('#nearby-map').width('100%').height(window.innerHeight * 0.9);
+	var lat = map.attr('data-lat');
+	var lon = map.attr('data-lon');
+	var distance = map.attr('data-distance');
+	var center = new google.maps.LatLng(lat, lon);
+
+	var options = {
+			center: center,
+			zoom: distance > 0 ? Math.floor(16 - (Math.log(distance)*1.6)) : 17,
+			mapTypeId: google.maps.MapTypeId.TERRAIN
+		};
+	var map = new google.maps.Map(document.getElementById("nearby-map"), options);
+
+	var circle = new google.maps.Circle({
+		center: center,
+		radius: distance*1000,
+		map: map,
+	});
+
+	var markers = {};
+
+	$('.nearby-object-list li').each(function(i, e) {
+		var li = $(e);
+		position = new google.maps.LatLng(li.attr('data-lat'), li.attr('data-lon'));
+		marker = markers[position];
+		if (marker == undefined) {
+			var marker = new google.maps.Marker({
+				position: position,
+				map: map,
+				title: li.attr('data-label'),
+				//icon: 'http://www.beazley.ox.ac.uk/XDB/images/icoClarosMarker.png',
+			});
+			markers[position] = marker;
+		} else {
+			var marker = markers[position];
+			marker.setTitle(marker.getTitle() + '\n' + li.attr('data-label'));
+		}
+	});
+});

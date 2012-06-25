@@ -66,6 +66,7 @@
     <script type="application/javascript">
       $(function() { voyager_simple_map("subject-map", {{ subject.geo_long }}, {{ subject.geo_lat }}); });
     </script>
+    <a href="{% url nearby %}?lat={{ subject.geo_lat }}&amp;lon={{ subject.geo_long }}&amp;distance=100">Nearby</a>
 {% endif %}
 
       {% for thing in subject.things_of_type %}

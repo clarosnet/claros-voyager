@@ -29,6 +29,7 @@ urlpatterns = patterns('',
     url(r'^people/(?P<page>[1-9]\d*)/$', core_views.PeopleView.as_view(), name='claros-people-page'),
 
     url(r'^places/', include('voyager.places.urls', 'places')),
+    url(r'^nearby/$', core_views.NearbyView.as_view(), name='nearby'),
 
     url(r'^sparql/', include('humfrey.sparql.urls.simple', 'sparql')),
     url(r'^graph/(?P<path>.*)$', sparql_views.GraphStoreView.as_view(), name='graph-store'),

@@ -1,11 +1,14 @@
+import json
 import random
 import rdflib
+import urllib2
 from collections import defaultdict
 
-from django.http import Http404, HttpResponsePermanentRedirect
+from django.http import Http404, HttpResponsePermanentRedirect, HttpResponseBadRequest
 from django.core.urlresolvers import reverse
-from django_conneg.views import HTMLView
+from django_conneg.views import HTMLView, ContentNegotiatedView
 
+from humfrey.elasticsearch.views import SearchView
 from humfrey.results.views.standard import RDFView, ResultSetView
 from humfrey.linkeddata.resource import Resource
 from humfrey.linkeddata.views import MappingView
@@ -124,3 +127,31 @@ class PeopleView(HTMLView, ResultSetView, StoreView, MappingView):
         return self.render(request, context, 'claros/people')
 
 
+class NearbyView(MappingView, HTMLView):
+    query_url = 'http://localhost:3030/public/man-made-object/_search'
+    query_url = 'http://data.clarosnet.org/elasticsearch/'
+    def get(self, request):
+        try:
+            lat, lon, distance = (float(request.GET[x]) for x in ('lat', 'lon', 'distance'))
+        except (ValueError, KeyError):
+            return HttpResponseBadRequest()
+
+        query = {'query': {'filtered': {
+                    'query': {'match_all': {}},
+                    'filter': {'geo_distance': {'distance': '{0}km'.format(distance),
+                                                'findLocation.location': {'lat': lat, 'lon': lon}}}}},
+                 'sort': [
+                     {'_geo_distance': {'findLocation.location': {'lat': lat, 'lon': lon},
+                                        'order': 'asc', 'unit': 'km'}}],
+                 'from': 0,
+                 'size': 1000}
+
+        response = urllib2.urlopen(self.query_url, json.dumps(query))
+        results = SearchView.Deunderscorer(json.load(response))
+
+        context = {'lat': lat,
+                   'lon': lon,
+                   'distance': distance,
+                   'results': results}
+
+        return self.render(request, context, 'claros/nearby')

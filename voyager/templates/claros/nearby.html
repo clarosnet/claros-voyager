@@ -1,0 +1,41 @@
+{% extends "base.html" %}{% load humfrey_thumbnail %}{% load humfrey_desc %}
+
+{% block title %}Near {{ lat }}, {{ lon }}{% endblock %}
+
+{% block preamble %}
+  <h1>Objects found near {{ lat }}°N, {{ lon }}°E</h1>
+{% endblock %}
+
+{% block body_class %}nearby-objects{% endblock %}
+
+{% block content %}
+
+<div id="nearby-map" data-lat="{{ lat }}" data-lon="{{ lon }}" data-distance="{{ distance }}"></div>
+
+<h2 style="margin-top: 1em;">Objects</h2>
+
+<ul class="nearby-object-list">{% for hit in results.hits.hits %}
+    <li style="line-height:1.1em; margin-bottom:1em; clear:right" data-lat="{{ hit.source.findLocation.location.lat }}" data-lon="{{ hit.source.findLocation.location.lon }}" data-label="{{ hit.source.label }}">
+      <a style="font-size:120%; font-weight: bold; color:#0066AA" href="{{ hit.source.uri|doc_url }}">
+      {% if hit.source.image %}
+      <img style="float:right; margin-bottom:1em" src="{% thumbnail hit.source.image width=200 height=120 %}" alt=""/>
+      {% endif %}
+
+      {{ hit.source.label|default:"<em>unnamed</em>" }}</a>
+      {% if hit.source.type.label %}
+        <small>{{ hit.source.type.label|capfirst }}</small>
+      {% endif %}
+      
+      <br/>
+      <span>{{ hit.source.uri }}</span>
+      <br/>
+      <span>Found at <a href="{{ hit.source.findLocation.uri|doc_url }}">{{ hit.source.findLocation.label }}</a></span>
+      {% if hit.source.description %}
+        <br/>
+        {{ hit.source.description|truncatewords:50 }}
+      {% endif %}
+      
+      </li>{% endfor %}
+</ul>
+{% endblock %}
+
