@@ -6,7 +6,7 @@
   <h1>{{ type.rdfs_label|capfirst }}</h2>
   <p class="text-content" style="text-align:center">
 {% for type in types %}{% if type.rdfs_label %}
-    <a href="{% url claros-objects-detail type.slug %}">{{ type.rdfs_label|capfirst }}</a>
+    <a href="{% url "claros-objects-detail" type.slug %}">{{ type.rdfs_label|capfirst }}</a>
     {% if not forloop.last%}&#8226;{% endif %}
 {% endif %}{% endfor %}
   </p>

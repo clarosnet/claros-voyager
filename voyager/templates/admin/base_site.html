@@ -23,9 +23,9 @@
 
 {% block nav-global %}{% if user.is_authenticated %}
 <ul class="mainnav">
-  <li><a href="{% url index %}">home</a></li>
-  <li><a href="{% url update:index %}">dataset updates</a></li>
-  <li><a href="{% url sparql-admin:index %}">stores</a></li>{% if user.is_staff %}
-  <li><a href="{% url admin:index %}">admin</a></li>{% endif %}
+  <li><a href="{% url "index" %}">home</a></li>
+  <li><a href="{% url "update:index" %}">dataset updates</a></li>
+  <li><a href="{% url "sparql-admin:index" %}">stores</a></li>{% if user.is_staff %}
+  <li><a href="{% url "admin:index" %}">admin</a></li>{% endif %}
 </ul>
 {% endif %}{% endblock %}

@@ -11,7 +11,7 @@
 
     <ul>
 {% for subject in subjects %}{% if subject.rdfs_label %}
-      <li><a href="{% url claros-objects-detail subject.slug %}">{{ subject.rdfs_label|capfirst }}</a></li>
+      <li><a href="{% url "claros-objects-detail" subject.slug %}">{{ subject.rdfs_label|capfirst }}</a></li>
 {% endif %}{% endfor %}
 
     </ul>

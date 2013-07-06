@@ -14,7 +14,7 @@
 
 <h2 style="margin-top: 1em;">Objects</h2>
 
-<ul class="nearby-object-list">{% for hit in results.hits.hits %}
+<ul class="nearby-object-list">{% for hit in hits.hits %}
     <li style="line-height:1.1em; margin-bottom:1em; clear:right" data-lat="{{ hit.source.findLocation.location.lat }}" data-lon="{{ hit.source.findLocation.location.lon }}" data-label="{{ hit.source.label }}">
       <a style="font-size:120%; font-weight: bold; color:#0066AA" href="{{ hit.source.uri|doc_url }}">
       {% if hit.source.image %}

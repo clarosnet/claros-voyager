@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import *
+from django.conf.urls import *
 
 from humfrey.desc import views as desc_views
 from humfrey.misc import views as misc_views

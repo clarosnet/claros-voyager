@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import patterns, include, url
+from django.conf.urls import patterns, include, url
 from django.conf import settings
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
@@ -14,8 +14,7 @@ from voyager.core import views as core_views
 #from humfrey.dataox.views import DatasetView, ExploreView, ExampleDetailView, ExampleResourceView, ExampleQueryView, ContactView, ForbiddenView, HelpView, ResizedImageView
 
 urlpatterns = patterns('',
-    url(r'^$', misc_views.FeedView.as_view(rss_url="http://clarosdata.wordpress.com/feed/",
-                                        template_name="index"), name='index'),
+    url(r'^$', misc_views.SimpleView.as_view(template_name="index"), name='index'),
     url(r'^id/.*$', desc_views.IdView.as_view(), name='id'),
 
     url(r'^doc.+$', desc_views.DocView.as_view(), name='doc'),
@@ -43,7 +42,7 @@ urlpatterns = patterns('',
     url(r'^forbidden/$', misc_views.SimpleView.as_view(context={'status_code': 403},
                                                        template_name='forbidden'), name='forbidden'),
 
-    url(r'^pingback/', include('humfrey.pingback.urls.public', 'pingback')),
+    url(r'^pingback/', include('humfrey.pingback.urls', 'pingback')),
 
     url(r'^thumbnail/$', thumbnail_views.ThumbnailView.as_view(), name='thumbnail'),
 ) + staticfiles_urlpatterns()

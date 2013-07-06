@@ -7,16 +7,16 @@
   <div class="text-content">
   <p style="text-align:center">
     {% if page > 2 %}
-      <a href="{% url claros-people-page page|add:"-1" %}">&#8678;</a>
+      <a href="{% url "claros-people-page" page|add:"-1" %}">&#8678;</a>
     {% endif %}
     {% if page == 2 %}
-      <a href="{% url claros-people %}">&#8678;</a>
+      <a href="{% url "claros-people" %}">&#8678;</a>
     {% endif %}
     {% if page == 1 %}
       &#8678;
     {% endif %}
     Page {{ page }}
-    <a href="{% url claros-people-page page|add:"1" %}">&#8680;</a>
+    <a href="{% url "claros-people-page" page|add:"1" %}">&#8680;</a>
   </p>
   
   <table class="description">

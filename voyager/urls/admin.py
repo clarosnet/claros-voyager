@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import patterns, include, url
+from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
@@ -13,8 +13,8 @@ urlpatterns = patterns('',
     url(r'^update/', include('humfrey.update.urls', 'update')),
     url(r'^stores/', include('humfrey.sparql.urls.admin', 'sparql-admin')),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^login/$', auth_views.login, name='login'),
-    url(r'^logout/$', auth_views.logout, name='logout'),
+    url(r'^accounts/login/$', auth_views.login, name='login'),
+    url(r'^accounts/logout/$', auth_views.logout, name='logout'),
 ) + staticfiles_urlpatterns()
 
 handler404 = misc_views.SimpleView.as_view(context={'status_code': 404}, template_name='404')
