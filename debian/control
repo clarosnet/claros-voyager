@@ -17,6 +17,7 @@ Architecture: all
 Depends: ${misc:Depends},
          ${python:Depends},
          python-django-humfrey,
-         python-feedparser
+         python-feedparser,
+         python-django-webauth
 Description: Additional code for CLAROS's data service
 
