@@ -1,10 +1,19 @@
-from django.conf.urls import *
+from django.conf.urls import patterns, url
+from django_hosts import reverse_full
 
 from humfrey.desc import views as desc_views
 from humfrey.misc import views as misc_views
 
+class IdView(desc_views.IdView):
+    @property
+    def doc_view(self):
+        return reverse_full('data', 'doc-generic')
+    @property
+    def desc_view(self):
+        return reverse_full('data', 'desc')
+
 urlpatterns = patterns('',
-    (r'', desc_views.IdView.as_view(), {}, 'id'),
+    url(r'^.*', IdView.as_view(), {}, 'id'),
 )
 
 
