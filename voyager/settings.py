@@ -4,8 +4,15 @@ import os
 
 from humfrey.settings.common import *
 
+ALLOWED_HOSTS = [
+    'data.clarosnet.org',
+    'id.clarosnet.org',
+]
+
+SECRET_KEY = 'noe8wainoizaim5feef7EX6xeiwaht3b'
+
 ADMINS = (
-    ('Open Data at OUCS', 'opendata@oucs.ox.ac.uk'),
+    ('Open Data at IT Services', 'opendata@it.ox.ac.uk'),
 )
 
 MANAGERS = ADMINS
@@ -19,12 +26,10 @@ AUTHENTICATION_BACKENDS = (
 )
 
 INSTALLED_APPS += (
-    'djcelery',
     'humfrey.elasticsearch',
+    'humfrey.update',
     'voyager.core',
     'voyager.places',
-    'humfrey.sparql',
-    'django_hosts',
     'django.contrib.admin',
 )
 
@@ -88,10 +93,12 @@ SERVED_DOMAINS = (
 
 UPDATE_FILES_DIRECTORY = os.path.join(MEDIA_ROOT, 'update-files')
 
-STATIC_ROOT = relative_path(config.get('main:static_root'))
+BASE_DIR = os.path.dirname(imp.find_module('voyager')[1])
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static-collected')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
-    os.path.join(os.path.dirname(__file__), 'static'),
+    os.path.join(imp.find_module('voyager')[1], 'static'),
     os.path.join(imp.find_module('humfrey')[1], 'static'),
 )
 

@@ -1,2 +1,15 @@
 feedparser
 django-conneg>=0.3.1
+Django>=1.7,<1.8
+rdflib
+django-hosts
+django-celery
+django-object-permissions
+django-guardian
+django-statsd-mozilla
+psycopg2
+redis
+pycrypto
+raven
+lxml
+Pillow

@@ -71,12 +71,12 @@
       <nav>
         <ul>
 {% block nav %}
-          <li><a href="{% host_url index on data %}">Home</a></li>
-          <li><a href="{% host_url claros-objects on data %}">Objects</a></li>
-          <li><a href="{% host_url claros-people on data %}">People</a></li>
-          <li><a href="{% host_url places:index on data %}">Places</a></li> 
-          <li><a href="{% host_url sparql:endpoint on data %}">SPARQL</a></li>
-          <li><a href="{% host_url search on data %}">Search</a></li>
+          <li><a href="{% host_url "index" on "data" %}">Home</a></li>
+          <li><a href="{% host_url "claros-objects" on "data" %}">Objects</a></li>
+          <li><a href="{% host_url "claros-people" on "data" %}">People</a></li>
+          <li><a href="{% host_url "places:index" on "data" %}">Places</a></li> 
+          <li><a href="{% host_url "sparql:endpoint" on "data" %}">SPARQL</a></li>
+          <li><a href="{% host_url "search" on "data" %}">Search</a></li>
 {% endblock %}
         </ul>
       </nav>
